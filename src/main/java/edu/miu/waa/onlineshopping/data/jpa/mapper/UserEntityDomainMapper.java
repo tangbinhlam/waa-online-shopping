@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserEntityDomainMapper {
     public User mapToDomain(UserEntity userEntity) {
-        return User.of(userEntity.getUserId(),
+        return (userEntity != null)?User.of(userEntity.getUserId(),
                 userEntity.getUserName(),
                 userEntity.getPassword(),
                 userEntity.getName(),
@@ -16,7 +16,7 @@ public class UserEntityDomainMapper {
                 userEntity.getActive(),
                 userEntity.getEmail(),
                 userEntity.getPhone(),
-                Role.of(userEntity.getRole()));
+                Role.of(userEntity.getRole())):null;
     }
 
     public UserEntity mapToEntity(User user) {

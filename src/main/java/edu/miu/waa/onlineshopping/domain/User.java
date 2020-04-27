@@ -1,16 +1,39 @@
 package edu.miu.waa.onlineshopping.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class User {
     private Integer userId;
+
+    @Length(min = 5, message = "*Your user name must have at least 5 characters")
+    @NotEmpty(message = "*Please provide a user name")
     private String userName;
+
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
     private String password;
+
+    @NotEmpty(message = "*Please provide your name")
     private String name;
+
+    @NotEmpty(message = "*Please provide your last name")
     private String lastName;
+
     private Boolean active;
+
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
     private String email;
+
     private String phone;
     private Role role;
 
@@ -24,6 +47,10 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.role = role;
+    }
+
+    public static User of(Role role){
+        return new User(null, null, null, null, null, true, null, null, role);
     }
 
     public static User of(Integer userId, String userName, String password, String name, String lastName, Boolean active, String email, String phone, Role role) {
