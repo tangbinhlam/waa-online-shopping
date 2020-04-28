@@ -26,9 +26,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/registration")
-    public ModelAndView registration(@RequestParam("role") String role) {
+    public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", User.of(Role.of(role)));
+        modelAndView.addObject("user", new User());
         modelAndView.setViewName("registration");
         return modelAndView;
     }

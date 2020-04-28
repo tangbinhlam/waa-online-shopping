@@ -53,9 +53,12 @@
                             class="validation-message"></label>
                     </div>
                 </div>
-                <div class="form-group" style="display: none">
+                <div class="form-group">
                     <div class="col-sm-9">
-                        <input type="text" th:field="*{role}" class="form-control"/>
+                        <select th:field="*{role}" class="form-control">
+                            <option th:value="'SELLER'" th:text="Seller"></option>
+                            <option th:value="'BUYER'" th:text="Buyer"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group" style="display: none">
