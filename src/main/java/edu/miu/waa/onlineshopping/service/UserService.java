@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private UserDomainRepository userDomainRepository;
@@ -22,9 +24,17 @@ public class UserService {
         return userDomainRepository.findUserByUserName(userName);
     }
 
-    public User save(User user){
-        user.setActive(user.getRole()!= Role.SELLER);
+    public User save(User user) {
+        user.setActive(user.getRole() != Role.SELLER);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userDomainRepository.save(user);
+    }
+
+    public User approveSeller(Integer userId) {
+        return userDomainRepository.approveSeller(userId);
+    }
+
+    public List<User> findByActiveFalse() {
+        return userDomainRepository.findByActiveFalse();
     }
 }

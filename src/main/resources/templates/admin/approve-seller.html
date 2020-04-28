@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link rel="stylesheet" type="text/css" th:href="@{/css/approve-seller.css}"/>
+</head>
+<body>
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1">Seller's users un-approve</h5>
+        <div class="row">
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4"
+                 th:each="user, iStat : ${users}"
+            >
+                <div class="image-flip" >
+                    <div class="mainflip flip-0">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" th:src="@{/images/seller.png}" alt="card image"></p>
+                                    <h4 class="card-title" th:text="${user.name}"></h4>
+                                    <p class="card-text" th:text="${user.aboutUs}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h3 class="card-title" th:text="${user.name}"></h3>
+                                    <div class="card-body">
+                                        <div class="text-left" th:text="${'Full Name: ' + user.getName() + ' '+ user.getLastName()}"></div>
+                                        <div class="text-left" th:text="${'Email: ' + user.getEmail()}"></div>
+                                        <div class="text-left" th:text="${'Phone: ' + user.getPhone()}"></div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <form th:action="@{/admin/users/{userId}/approve(userId = ${user.getUserId()})}"method="POST">
+                                        <button class="btn btn-primary btn-sm" type="Submit">Approve</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

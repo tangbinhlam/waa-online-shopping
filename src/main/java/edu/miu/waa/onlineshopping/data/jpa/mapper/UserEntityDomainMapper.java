@@ -16,7 +16,9 @@ public class UserEntityDomainMapper {
                 userEntity.getActive(),
                 userEntity.getEmail(),
                 userEntity.getPhone(),
-                Role.of(userEntity.getRole())):null;
+                Role.of(userEntity.getRole()),
+                userEntity.getAboutUs()
+        ):null;
     }
 
     public UserEntity mapToEntity(User user) {
@@ -29,6 +31,7 @@ public class UserEntityDomainMapper {
         userEntity.setEmail(user.getEmail());
         userEntity.setPhone(user.getPhone());
         userEntity.setRole(user.getRole().toString());
+        userEntity.setAboutUs(user.getAboutUs());
         return userEntity;
     }
 }
