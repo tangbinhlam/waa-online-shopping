@@ -31,7 +31,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("reviewSeller")
+    @GetMapping("review-seller")
     public String reviewSeller(Model model) {
         List<User> users = userService.findByActiveFalse();
         model.addAttribute("users", users);
@@ -41,6 +41,6 @@ public class AdminController {
     @PostMapping("/users/{userId}/approve")
     public String approveSeller(@PathVariable Integer userId, Model model) {
         userService.approveSeller(userId);
-        return "redirect:/admin/reviewSeller";
+        return "redirect:/admin/review-seller";
     }
 }
