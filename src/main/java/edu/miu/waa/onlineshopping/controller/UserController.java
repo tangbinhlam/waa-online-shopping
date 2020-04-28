@@ -45,7 +45,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
-            userService.save(user);
+            User user1 = userService.save(user);
+            System.out.println("Saved User:");
+            System.out.println(user1.toString());
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("registration");
