@@ -1,4 +1,6 @@
-package edu.miu.waa.onlineshopping.domain;
+package edu.miu.waa.onlineshopping.domain.repository;
+
+import edu.miu.waa.onlineshopping.domain.model.User;
 
 import java.util.List;
 

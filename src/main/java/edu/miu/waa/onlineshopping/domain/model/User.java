@@ -1,9 +1,9 @@
-package edu.miu.waa.onlineshopping.domain;
+package edu.miu.waa.onlineshopping.domain.model;
 
+import edu.miu.waa.onlineshopping.domain.vo.Role;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;

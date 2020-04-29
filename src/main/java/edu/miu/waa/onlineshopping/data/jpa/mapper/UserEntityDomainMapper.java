@@ -1,8 +1,8 @@
 package edu.miu.waa.onlineshopping.data.jpa.mapper;
 
 import edu.miu.waa.onlineshopping.data.jpa.entity.UserEntity;
-import edu.miu.waa.onlineshopping.domain.Role;
-import edu.miu.waa.onlineshopping.domain.User;
+import edu.miu.waa.onlineshopping.domain.vo.Role;
+import edu.miu.waa.onlineshopping.domain.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +23,7 @@ public class UserEntityDomainMapper {
 
     public UserEntity mapToEntity(User user) {
         UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(user.getUserId());
         userEntity.setUserName(user.getUserName());
         userEntity.setPassword(user.getPassword());
         userEntity.setName(user.getName());

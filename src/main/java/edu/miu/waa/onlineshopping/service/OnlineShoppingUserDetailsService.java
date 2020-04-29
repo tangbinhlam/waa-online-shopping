@@ -1,7 +1,7 @@
 package edu.miu.waa.onlineshopping.service;
 
-import edu.miu.waa.onlineshopping.domain.Role;
-import edu.miu.waa.onlineshopping.domain.User;
+import edu.miu.waa.onlineshopping.domain.vo.Role;
+import edu.miu.waa.onlineshopping.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

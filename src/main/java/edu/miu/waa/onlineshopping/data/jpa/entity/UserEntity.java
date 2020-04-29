@@ -1,9 +1,6 @@
 package edu.miu.waa.onlineshopping.data.jpa.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
 @Table(name = "SHOPPING_USER")
 public class UserEntity {
     @Id
@@ -41,9 +39,6 @@ public class UserEntity {
     private String phone;
 
     private String role;
-
-    public UserEntity() {
-    }
 
     public UserEntity(String userName, String password, String email, String phone, String role, String name, String lastName, String aboutUs) {
         this.userName = userName;

@@ -3,8 +3,8 @@ package edu.miu.waa.onlineshopping.data.jpa.adapter;
 import edu.miu.waa.onlineshopping.data.jpa.entity.UserEntity;
 import edu.miu.waa.onlineshopping.data.jpa.mapper.UserEntityDomainMapper;
 import edu.miu.waa.onlineshopping.data.jpa.repository.UserRepository;
-import edu.miu.waa.onlineshopping.domain.User;
-import edu.miu.waa.onlineshopping.domain.UserDomainRepository;
+import edu.miu.waa.onlineshopping.domain.model.User;
+import edu.miu.waa.onlineshopping.domain.repository.UserDomainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

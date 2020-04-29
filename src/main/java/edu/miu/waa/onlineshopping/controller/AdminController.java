@@ -1,6 +1,6 @@
 package edu.miu.waa.onlineshopping.controller;
 
-import edu.miu.waa.onlineshopping.domain.User;
+import edu.miu.waa.onlineshopping.domain.model.User;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

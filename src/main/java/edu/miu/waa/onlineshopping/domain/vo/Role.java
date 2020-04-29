@@ -1,4 +1,4 @@
-package edu.miu.waa.onlineshopping.domain;
+package edu.miu.waa.onlineshopping.domain.vo;
 
 public enum  Role {
     ADMIN("ADMIN"),
