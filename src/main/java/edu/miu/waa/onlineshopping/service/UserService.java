@@ -25,7 +25,6 @@ public class UserService {
     }
 
     public User save(User user) {
-        user.setActive(user.getRole() != Role.SELLER);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userDomainRepository.save(user);
     }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/alertNotApproveYet.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="alert-message alert-message-success">
+                <h4>
+                    Register Success</h4>
+                <p>
+                    You are registered successfully for Seller.
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="alert-message alert-message-warning">
+                <h4>
+                    Not approved yet from Admin</h4>
+                <p>
+                    Althought you are registered successfully however you should waiting us to review and approve
+                    for go to next step to add your product for selling <strong>Thanks for your patient</strong>.
+                    We will send email to you to notify right the way after your account is approved.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

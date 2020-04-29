@@ -4,7 +4,12 @@ import edu.miu.waa.onlineshopping.domain.Role;
 import edu.miu.waa.onlineshopping.domain.User;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +24,29 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = {"/", "/login"})
-    public ModelAndView login() {
+    public ModelAndView login(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
+    }
+
+    @GetMapping(value = "/401")
+    public ModelAndView accesssDenied() {
+
+        ModelAndView model = new ModelAndView();
+
+        // check if user is login
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetail = (UserDetails) auth.getPrincipal();
+            System.out.println(userDetail);
+
+            model.addObject("username", userDetail.getUsername());
+
+        }
+        model.setViewName("seller/alertNotApproveYet");
+        return model;
+
     }
 
     @GetMapping(value = "/registration")
@@ -45,6 +69,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
+            user.setActive(user.getRole() != Role.SELLER);
             User user1 = userService.save(user);
             System.out.println("Saved User:");
             System.out.println(user1.toString());
