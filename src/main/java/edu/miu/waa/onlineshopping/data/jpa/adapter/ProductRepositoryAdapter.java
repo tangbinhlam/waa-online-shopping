@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class ProductRepositoryAdapter implements ProductDomainRepository {
@@ -36,24 +37,29 @@ public class ProductRepositoryAdapter implements ProductDomainRepository {
     }
 
     @Override
-    public boolean delete(int productId) {
+    public boolean delete(Integer productId) {
         try {
             SellerProductEntity productEntity = productRespository.findById(productId).get();
             productRespository.delete(productEntity);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
     }
 
     @Override
-    public List<Product> findAllBySupplier(int supplierId) {
+    public List<Product> findAllBySupplier(Integer supplierId) {
         return productRespository.findAllBySupplier(supplierId).stream().map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
 
     @Override
-    public Product findProductByProductId(int productId) {
+    public Product findProductByProductId(Integer productId) {
         return productEntityDomainMapper.mapToDomain(productRespository.findById(productId).orElse(null));
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return StreamSupport.stream(productRespository.findAll().spliterator(), false).map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
 }

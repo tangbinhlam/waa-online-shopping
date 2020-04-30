@@ -43,7 +43,7 @@ public class UserController {
             model.addObject("username", userDetail.getUsername());
 
         }
-        model.setViewName("seller/alertNotApproveYet");
+        model.setViewName("alert-not-approve-yet");
         return model;
 
     }

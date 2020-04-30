@@ -28,13 +28,13 @@ class ProductRepositoryAdapterTest {
 
     @Test
     void save() {
-        User user = User.of(1, "Lamtang", "Lamtang", "Lam", "Tang", true, "lamtang@yahoo.com", "0978548677",
+        User user = User.of(1, "Lamtangxx", "Lamtangxx", "Lam", "Tang", true, "lamtang@yahoo.com", "0978548677",
                 Role.SELLER, "I'm a admin I manager to approve new seller and review the review are made by buyer"
 
         );
         User userSaved = userRepositoryAdapter.save(user);
         System.out.println(userSaved.toString());
-        Product product = Product.of(500, "Lenspen", "abc/len.jpg", "Will not scratch or damages lenses", userSaved, 500.5);
+        Product product = Product.of(500, "Lenspen", "abc/len.jpg", "Will not scratch or damages lenses", userSaved, 500.5, "Nikon");
 
         // Test save product
         Product productSaved = productRepositoryAdapter.save(product);
@@ -58,12 +58,13 @@ class ProductRepositoryAdapterTest {
 
         //Test Update
         Product productUpdated = productRepositoryAdapter.update(Product.of(productSaved.getProductId(), "Updated product",
-                "newPathImage", "Updated-Descrpiton", userSaved, 55.20));
+                "newPathImage", "Updated-Descrpiton", userSaved, 55.20, "Nikon new"));
         System.out.println(productUpdated);
         assertThat(productUpdated).isNotNull();
         assertThat(productUpdated.getProductName()).isEqualTo("Updated product");
         assertThat(productUpdated.getImagePath()).isEqualTo("newPathImage");
         assertThat(productUpdated.getDescription()).isEqualTo("Updated-Descrpiton");
+       // assertThat(productUpdated.getProducer()).isEqualTo("Nikon new");
         assertThat(productUpdated.getPrice()).isEqualTo(55.20);
         assertThat(productUpdated.getSupplier().getAboutUs()).isEqualTo(userSaved.getAboutUs());
 

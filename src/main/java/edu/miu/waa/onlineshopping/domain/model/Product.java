@@ -12,17 +12,19 @@ public class Product {
     private String description;
     private double price;
     private User supplier;
+    private String producer;
 
-    private Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price) {
+    private Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
         this.productId = productId;
         this.productName = productName;
         this.imagePath = imagePath;
         this.description = description;
         this.supplier = supplier;
         this.price = price;
+        this.producer = producer;
     }
 
-    public static Product of(Integer productId, String productName, String imagePath, String description, User supplier, Double price) {
-        return new Product(productId, productName, imagePath, description, supplier, price);
+    public static Product of(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
+        return new Product(productId, productName, imagePath, description, supplier, price, producer);
     }
 }

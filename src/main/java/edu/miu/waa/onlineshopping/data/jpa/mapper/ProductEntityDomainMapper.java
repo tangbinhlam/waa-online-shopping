@@ -18,7 +18,8 @@ public class ProductEntityDomainMapper {
                         productEntity.getImagePath(),
                         productEntity.getDescription(),
                         userEntityDomainMapper.mapToDomain(productEntity.getSupplier()),
-                        productEntity.getPrice()
+                        productEntity.getPrice(),
+                        productEntity.getProducer()
                 ) : null;
     }
 
@@ -30,6 +31,7 @@ public class ProductEntityDomainMapper {
         productEntity.setSupplier(userEntityDomainMapper.mapToEntity(product.getSupplier()));
         productEntity.setProductName(product.getProductName());
         productEntity.setProductId(product.getProductId());
+        productEntity.setProducer(product.getProducer());
         return productEntity;
     }
 }

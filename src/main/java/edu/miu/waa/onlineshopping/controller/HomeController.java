@@ -28,8 +28,7 @@ public class HomeController {
             modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
             modelAndView.setViewName("admin/home");
         } else if (user.getRole().equals(Role.SELLER)) {
-            //TODO imporve should using redirect
-            modelAndView.setViewName("seller/alertNotApproveYet");
+            modelAndView.setViewName("redirect:/seller/");
         }
         return modelAndView;
     }

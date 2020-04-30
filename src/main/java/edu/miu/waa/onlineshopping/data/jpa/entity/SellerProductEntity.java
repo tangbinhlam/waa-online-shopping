@@ -21,6 +21,8 @@ public class SellerProductEntity {
     @Column(name = "PRODUCT_NAME")
     private String productName;
 
+    private String producer;
+
     @Column(name = "PRICE")
     private double price;
 
@@ -30,7 +32,7 @@ public class SellerProductEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private UserEntity supplier;
 

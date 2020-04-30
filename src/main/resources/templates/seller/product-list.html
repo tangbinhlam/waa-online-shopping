@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage product's Seller</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1 class="col-md-16"> Manage List Product</h1>
+        <button class="btn-primary btn">Add new product</button>
+        <br>
+    </div>
+    <div class="row">
+        <div class="col-md-16">
+            <div class="col-sm-6 col-md-4" th:each="product, iStat : ${products}">
+                <div class="thumbnail">
+                    <h4 class="text-center"><span class="label label-info" th:text="${product.producer}"></span></h4>
+                    <div class="col-md-4">
+                        <img th:src="${product.imagePath}" style="display: block; min-height: 200px; max-height: 300px"
+                             class="thumbnail img-responsive">
+                    </div>
+                    <div class="caption">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                <h3 th:text="${product.productName}"></h3>
+                            </div>
+                            <div class="col-md-6 col-xs-6 price">
+                                <h3>
+                                    <label th:text="${'$' + product.price}"></label></h3>
+                            </div>
+                        </div>
+                        <p th:text="${product.description}"></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form th:object="${product}" method="post" th:action="@{/seller/products/update}">
+                                    <button type="submit" class="btn btn-primary btn-product">Update</button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form th:object="${product}" method="post" th:action="@{/seller/products/{productId}/delete(productId = ${product.getProductId()})}">
+                                    <button type="submit" class="btn btn-danger btn-product">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
