@@ -1,3 +1,11 @@
 .btn-product{
     width: 100%;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.btn-add {
+    margin-bottom: 15px !important;
+}

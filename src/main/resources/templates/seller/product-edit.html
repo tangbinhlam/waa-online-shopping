@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Warning not active user</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/product-edit.css}"/>
+    <!------ Include the above in your HEAD tag ---------->
+<body>
+
+<div class="container product">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="product-info">
+                <img src="https://image.ibb.co/kUASdV/product-image.png" alt="image"/>
+                <h2>Add New Product</h2>
+                <h4>Add new product for selling in Online Shopping</h4>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <form class="product-form" method="POST" action="#"
+                  enctype="multipart/form-data"
+                  th:action="@{/seller/products/new}" th:object="${product}">
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+                               class="validation-message"></label>
+                        <input type="text" class="form-control" placeholder="Enter Product Name"
+                               th:field="*{productName}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}"
+                               class="validation-message"></label>
+                        <input type="text" class="form-control" placeholder="Enter Producer Name"
+                               th:field="*{producer}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+                               class="validation-message"></label>
+                        <input type="number" class="form-control" placeholder="Enter price"
+                               th:field="*{price}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label th:if="${#fields.hasErrors('imagePath')}" th:errors="*{imagePath}"
+                               class="validation-message"></label>
+                        <input type="file" class="form-control" id="imagePath" th:field="*{imagePath}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                               class="validation-message"></label>
+                        <textarea class="form-control" rows="5" id="description" th:field="*{description}"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>

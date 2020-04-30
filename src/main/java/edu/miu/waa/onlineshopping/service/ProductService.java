@@ -23,6 +23,11 @@ public class ProductService {
     }
 
     @Transactional
+    public Product findProductByProductId(Integer productId){
+        return productDomainRepository.findProductByProductId(productId);
+    }
+
+    @Transactional
     public Product save(Product product){
         return productDomainRepository.save(product);
     }

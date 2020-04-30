@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ErrorHandleController {
     @GetMapping("/not-approved-yet")
     String goNotAproveYet(){
-        return "seller/alertNotApproveYet";
+        return "seller/alert-not-approve-yet";
     }
 }
