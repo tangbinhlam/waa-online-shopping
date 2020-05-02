@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductEntityDomainMapper {
 
+    private UserEntityDomainMapper userEntityDomainMapper;
+
     @Autowired
-    UserEntityDomainMapper userEntityDomainMapper;
+    public ProductEntityDomainMapper(UserEntityDomainMapper userEntityDomainMapper) {
+        this.userEntityDomainMapper = userEntityDomainMapper;
+    }
 
     public Product mapToDomain(SellerProductEntity productEntity) {
         return (productEntity != null) ?

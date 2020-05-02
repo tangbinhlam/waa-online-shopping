@@ -9,7 +9,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @NoArgsConstructor
-@Table(name = "SHOPPING_USER")
+@Table(name = "USER")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

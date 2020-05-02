@@ -1,7 +1,5 @@
 package edu.miu.waa.onlineshopping.data.jpa.adapter;
 
-import edu.miu.waa.onlineshopping.data.jpa.repository.ProductRespository;
-import edu.miu.waa.onlineshopping.data.jpa.repository.UserRepository;
 import edu.miu.waa.onlineshopping.domain.model.Product;
 import edu.miu.waa.onlineshopping.domain.model.User;
 import edu.miu.waa.onlineshopping.domain.vo.Role;

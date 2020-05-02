@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ProductRespository extends CrudRepository<SellerProductEntity, Integer> {
+public interface ProductRepository extends CrudRepository<SellerProductEntity, Integer> {
 
     @Query("select p from SellerProductEntity p where p.supplier.userId = ?1")
     List<SellerProductEntity> findAllBySupplier(int supplierId);

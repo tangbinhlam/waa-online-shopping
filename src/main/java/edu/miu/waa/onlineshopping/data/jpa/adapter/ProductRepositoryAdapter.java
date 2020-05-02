@@ -2,9 +2,10 @@ package edu.miu.waa.onlineshopping.data.jpa.adapter;
 
 import edu.miu.waa.onlineshopping.data.jpa.entity.SellerProductEntity;
 import edu.miu.waa.onlineshopping.data.jpa.mapper.ProductEntityDomainMapper;
-import edu.miu.waa.onlineshopping.data.jpa.repository.ProductRespository;
+import edu.miu.waa.onlineshopping.data.jpa.repository.ProductRepository;
 import edu.miu.waa.onlineshopping.domain.model.Product;
 import edu.miu.waa.onlineshopping.domain.repository.ProductDomainRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,34 +14,35 @@ import java.util.stream.StreamSupport;
 
 @Repository
 public class ProductRepositoryAdapter implements ProductDomainRepository {
-    private final ProductRespository productRespository;
+    private final ProductRepository productRepository;
     private final ProductEntityDomainMapper productEntityDomainMapper;
 
-    public ProductRepositoryAdapter(ProductRespository productRespository, ProductEntityDomainMapper productEntityDomainMapper) {
-        this.productRespository = productRespository;
+    @Autowired
+    public ProductRepositoryAdapter(ProductRepository productRepository, ProductEntityDomainMapper productEntityDomainMapper) {
+        this.productRepository = productRepository;
         this.productEntityDomainMapper = productEntityDomainMapper;
     }
 
     @Override
     public Product save(Product product) {
-        return productEntityDomainMapper.mapToDomain(productRespository.save(productEntityDomainMapper.mapToEntity(product)));
+        return productEntityDomainMapper.mapToDomain(productRepository.save(productEntityDomainMapper.mapToEntity(product)));
     }
 
     @Override
     public Product update(Product product) {
-        SellerProductEntity productEntity = productRespository.findById(product.getProductId()).get();
+        SellerProductEntity productEntity = productRepository.findById(product.getProductId()).get();
         productEntity.setProductName(product.getProductName());
         productEntity.setPrice(product.getPrice());
         productEntity.setImagePath(product.getImagePath());
         productEntity.setDescription(product.getDescription());
-        return productEntityDomainMapper.mapToDomain(productRespository.save(productEntity));
+        return productEntityDomainMapper.mapToDomain(productRepository.save(productEntity));
     }
 
     @Override
     public boolean delete(Integer productId) {
         try {
-            SellerProductEntity productEntity = productRespository.findById(productId).get();
-            productRespository.delete(productEntity);
+            SellerProductEntity productEntity = productRepository.findById(productId).get();
+            productRepository.delete(productEntity);
             return true;
         } catch (Exception e) {
             return false;
@@ -50,16 +52,16 @@ public class ProductRepositoryAdapter implements ProductDomainRepository {
 
     @Override
     public List<Product> findAllBySupplier(Integer supplierId) {
-        return productRespository.findAllBySupplier(supplierId).stream().map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
+        return productRepository.findAllBySupplier(supplierId).stream().map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
 
     @Override
     public Product findProductByProductId(Integer productId) {
-        return productEntityDomainMapper.mapToDomain(productRespository.findById(productId).orElse(null));
+        return productEntityDomainMapper.mapToDomain(productRepository.findById(productId).orElse(null));
     }
 
     @Override
     public List<Product> findAll() {
-        return StreamSupport.stream(productRespository.findAll().spliterator(), false).map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false).map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
 }

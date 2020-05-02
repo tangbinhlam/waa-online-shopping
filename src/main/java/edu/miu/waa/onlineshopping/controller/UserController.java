@@ -56,6 +56,7 @@ public class UserController {
         return modelAndView;
     }
 
+    // TODO Need to redirect app PRG (POST/REDIRECT/GET)
     @PostMapping(value = "/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
