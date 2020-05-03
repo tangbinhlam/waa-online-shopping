@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Service
@@ -35,6 +36,11 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         return productDomainRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> findProductsByIds(List<Integer> ids) {
+        return productDomainRepository.findProductsByIds(ids);
     }
 
     @Transactional

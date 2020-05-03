@@ -11,4 +11,5 @@ public interface ProductDomainRepository {
     List<Product> findAllBySupplier(Integer supplierId);
     Product findProductByProductId(Integer productId);
     List<Product> findAll();
+    List<Product> findProductsByIds(List<Integer> ids);
 }

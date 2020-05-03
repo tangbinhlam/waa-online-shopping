@@ -64,4 +64,9 @@ public class ProductRepositoryAdapter implements ProductDomainRepository {
     public List<Product> findAll() {
         return StreamSupport.stream(productRepository.findAll().spliterator(), false).map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Product> findProductsByIds(List<Integer> ids) {
+        return productRepository.findProductsByIds(ids).stream().map(productEntityDomainMapper::mapToDomain).collect(Collectors.toList());
+    }
 }
