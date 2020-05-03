@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="row" th:if="${cardItems.size()<=0}">
+        <h1>Your Shopping Cart is empty.</h1>
+    </div>
+    <div class="row" th:if="${cardItems.size() > 0}">
+        <h1 style="color:#0056b3">Shopping Cart</h1>
+    </div>
+    <div class="row" th:if="${cardItems.size() > 0}">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartItem, iStat : ${cardItems}">
+                    <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img th:src="@{'/files/' + ${cartItem.product.imagePath}}" th:title="${cartItem.product.description}" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#" th:text="${cartItem.product.productName}">Product name</a></h4>
+                                <h5 class="media-heading"> by <a href="#" th:text="${cartItem.product.producer}">Brand name</a></h5>
+                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                            </div>
+                        </div></td>
+                    <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <h4 class="text-center" readonly th:text="${cartItem.quantity}"></h4>
+                    </td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${#numbers.formatDecimal(cartItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}"><strong>$4.87</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${#numbers.formatDecimal(cartItem.product.getPrice() * cartItem.quantity, 0, 'COMMA', 2, 'POINT')}"><strong>$14.61</strong></td>
+                    <td class="col-sm-1 col-md-1">
+                        <form th:object="${cartItem}" method="post"
+                              th:action="@{/buyer/carts/{productId}/remove(productId = ${cartItem.getProductId()})}">
+                            <button type="submit" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-remove"></span> Remove
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h5>Subtotal</h5></td>
+                    <td class="text-right"><h5 th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"><strong>$24.59</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h5>Estimated shipping</h5></td>
+                    <td class="text-right"><h5 th:text="${5* cardItems.size()}"><strong>$6.94</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td><h3>Total</h3></td>
+                    <td class="text-right"><h3 th:text="${#numbers.formatDecimal(total + 5* cardItems.size(), 0, 'COMMA', 2, 'POINT')}"><strong>$31.53</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>   </td>
+                    <td>
+                        <form th:action="@{/buyer/}" method="get">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                            </button>
+                        </form>
+                       </td>
+                    <td>
+                        <button type="button" class="btn btn-success">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

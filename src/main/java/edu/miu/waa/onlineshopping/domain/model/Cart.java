@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +23,19 @@ public class Cart {
     }
 
     public void addItemToCart(Integer productId) {
-        if(cardItems.stream().anyMatch( cardItem -> cardItem.getProductId().equals(productId))){
-            cardItems = cardItems.stream().map( cardItem -> {
-                if(cardItem.getProductId().equals(productId)){
+        if (cardItems.stream().anyMatch(cardItem -> cardItem.getProductId().equals(productId))) {
+            cardItems = cardItems.stream().map(cardItem -> {
+                if (cardItem.getProductId().equals(productId)) {
                     cardItem.setQuantity(cardItem.getQuantity() + 1);
                 }
                 return cardItem;
             }).collect(Collectors.toList());
-        }else {
+        } else {
             cardItems.add(new CardItem(1, productId));
         }
+    }
+
+    public void removeItemFormCart(Integer productId) {
+        cardItems = cardItems.stream().filter(cardItem -> !cardItem.getProductId().equals(productId)).collect(Collectors.toList());
     }
 }

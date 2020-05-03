@@ -3,18 +3,16 @@ package edu.miu.waa.onlineshopping.controller;
 import edu.miu.waa.onlineshopping.domain.model.CardItem;
 import edu.miu.waa.onlineshopping.domain.model.Cart;
 import edu.miu.waa.onlineshopping.domain.model.Product;
-import edu.miu.waa.onlineshopping.domain.model.User;
 import edu.miu.waa.onlineshopping.service.ProductService;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/buyer**")
@@ -40,14 +38,43 @@ public class BuyerController {
     }
 
     @PostMapping(value = "/carts/{productId}/add")
-    public String home(@PathVariable  Integer productId, Product product, Model model) {
-        Cart cart = (Cart)servletContext.getAttribute("cart");
-        if(cart == null) {
-            cart = new Cart();
-        }
+    public String home(@PathVariable Integer productId, Product product, Model model) {
+        Cart cart = getCurrentCart();
         cart.addItemToCart(productId);
         servletContext.setAttribute("cart", cart);
         System.out.println(cart);
         return "redirect:/buyer/";
+    }
+
+
+    @PostMapping(value = "/carts/{productId}/remove")
+    public String home(@PathVariable Integer productId, Model model) {
+        Cart cart = getCurrentCart();
+        cart.removeItemFormCart(productId);
+        servletContext.setAttribute("cart", cart);
+        System.out.println(cart);
+        return "redirect:/buyer/carts/details/";
+    }
+
+    @GetMapping(value = "/carts/details")
+    public String cartDetail(Model model) {
+        Cart cart = getCurrentCart();
+        List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
+        cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
+                cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
+        double sum = cart.getCardItems().stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
+        servletContext.setAttribute("cart", cart);
+        model.addAttribute("cardItems", cart.getCardItems());
+        model.addAttribute("total", sum);
+        System.out.println(cart);
+        return "buyer/cart-detail";
+    }
+
+    private Cart getCurrentCart() {
+        Cart cart = (Cart) servletContext.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+        }
+        return cart;
     }
 }

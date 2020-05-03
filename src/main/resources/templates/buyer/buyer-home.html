@@ -9,9 +9,11 @@
 <body>
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger" name="registration"
-                type="Submit">Logout
-        </button>
+        <button class="btn btn-md btn-danger" type="Submit">Logout</button>
+    </form>
+
+    <form th:action="@{/buyer/carts/details}" method="get">
+        <button class="btn btn-md btn-primary" type="Submit">View Cart Detail</button>
     </form>
 </nav>
 <div class="container">
@@ -34,7 +36,7 @@
                             </div>
                             <div class="col-md-6 col-xs-6 price">
                                 <h3>
-                                    <label th:text="${'$' + product.price}"></label></h3>
+                                    <label th:text="${'$' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></label></h3>
                             </div>
                         </div>
                         <p class="cursor-pointer"

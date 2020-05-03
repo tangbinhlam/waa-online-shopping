@@ -5,10 +5,14 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class CardItem {
     private Integer quantity;
     private Integer productId;
+    private Product product;
 
+    public CardItem(Integer quantity, Integer productId) {
+        this.quantity = quantity;
+        this.productId = productId;
+    }
 }
