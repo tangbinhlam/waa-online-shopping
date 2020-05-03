@@ -3,28 +3,18 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Manage product's Seller</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/product-list.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap_3.2.0.min.css}" id="bootstrap-css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/buyer-home.css}"/>
 </head>
 <body>
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
+        <button class="btn btn-md btn-danger" name="registration"
                 type="Submit">Logout
         </button>
     </form>
 </nav>
 <div class="container">
-    <div class="row">
-        <h1 class="col-md-16"> Manage List Product</h1>
-        <div class="col-md-6">
-            <form method="get" th:action="@{/seller/products/new}">
-                <button type="submit" class="btn-add btn-primary btn">Add new product</button>
-            </form>
-        </div>
-
-        <br>
-    </div>
     <div class="row">
         <div class="col-md-16">
             <div class="col-sm-6 col-md-4" th:each="product, iStat : ${products}">
@@ -33,8 +23,8 @@
                     <p></p>
                     <div class="col-md-4">
                         <img th:src="@{'/files/' + ${product.imagePath}}" th:title="${product.description}"
-                             style="width: 200px"
-                             class="img-fluid img-responsive cursor-pointer">
+                             style="width: 300px"
+                             class="img-thumbnail img-responsive cursor-pointer">
                     </div>
                     <p></p>
                     <div class="caption">
@@ -49,18 +39,30 @@
                         </div>
                         <p class="cursor-pointer"
                            th:text="${product.description.length()>40?(product.description.substring(0, 40) + '...'):product.description}"
-                           th:title="${product.description}"></p>
+                           th:title="${product.description}">
+                        </p>
+                        <p>
+                            <span>Rate: </span>
+                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
+                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
+                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
+                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
+                            <img th:src="@{/images/Star1.png}" style="width: 30px;" alt="cart"/>
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Seller: <span style="color: #005cbf"
+                                                 th:text="${product.supplier.name + ' ' + product.supplier.lastName}"></span>
+                                </p>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <form th:object="${product}" method="post"
-                                      th:action="@{/seller/products/{productId}/update(productId = ${product.getProductId()})}">
-                                    <button type="submit" class="btn btn-primary btn-product">Update</button>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
-                                <form th:object="${product}" method="post"
-                                      th:action="@{/seller/products/{productId}/delete(productId = ${product.getProductId()})}">
-                                    <button type="submit" class="btn btn-danger btn-product">Delete</button>
+                                      th:action="@{/buyer/carts/{productId}/add(productId = ${product.getProductId()})}">
+                                    <button type="submit" class="btn btn-primary btn-product">
+                                        <img th:src="@{/images/cart.png}" style="width: 40px;" alt="cart"/>Add To Cart
+                                    </button>
                                 </form>
                             </div>
                         </div>

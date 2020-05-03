@@ -29,7 +29,7 @@ public class SellerProductEntity {
     @Column(name = "IMAGE_PATH")
     private String imagePath;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", columnDefinition="TEXT")
     private String description;
 
     @OneToOne(fetch = FetchType.EAGER)

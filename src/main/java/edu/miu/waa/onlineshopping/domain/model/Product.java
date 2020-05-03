@@ -18,7 +18,7 @@ public class Product {
     private User supplier;
     private String producer;
 
-    private Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
+    protected Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
         this.productId = productId;
         this.productName = productName;
         this.imagePath = imagePath;
@@ -27,7 +27,6 @@ public class Product {
         this.price = price;
         this.producer = producer;
     }
-
     public static Product of(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
         return new Product(productId, productName, imagePath, description, supplier, price, producer);
     }

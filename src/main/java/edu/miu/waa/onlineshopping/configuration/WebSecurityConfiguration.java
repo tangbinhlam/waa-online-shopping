@@ -51,6 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/download/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/seller/**").hasAuthority("SELLER")
+                .antMatchers("/buyer/**").hasAuthority("BUYER")
                 .anyRequest()
                 .authenticated()
                 .and().csrf().disable()

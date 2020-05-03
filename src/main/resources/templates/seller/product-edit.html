@@ -7,7 +7,13 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/product-edit.css}"/>
     <!------ Include the above in your HEAD tag ---------->
 <body>
-
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <form th:action="@{/logout}" method="get">
+        <button class="btn btn-md btn-danger btn-block" name="registration"
+                type="Submit">Logout
+        </button>
+    </form>
+</nav>
 <div class="container product">
     <div class="row">
         <div class="col-md-3">

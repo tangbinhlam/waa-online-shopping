@@ -1,5 +1,7 @@
 package edu.miu.waa.onlineshopping.controller;
 
+import edu.miu.waa.onlineshopping.domain.model.CardItem;
+import edu.miu.waa.onlineshopping.domain.model.Cart;
 import edu.miu.waa.onlineshopping.domain.vo.Role;
 import edu.miu.waa.onlineshopping.domain.model.User;
 import edu.miu.waa.onlineshopping.service.UserService;
@@ -11,15 +13,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 
+    private final UserService userService;
+    private final ServletContext servletContext;
+
     @Autowired
-    private UserService userService;
+    public HomeController(UserService userService, ServletContext servletContext) {
+        this.userService = userService;
+        this.servletContext = servletContext;
+    }
 
     @GetMapping(value = {""})
-    public ModelAndView home() {
+    public ModelAndView home(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
@@ -29,6 +41,9 @@ public class HomeController {
             modelAndView.setViewName("admin/home");
         } else if (user.getRole().equals(Role.SELLER)) {
             modelAndView.setViewName("redirect:/seller/");
+        } else if(user.getRole().equals(Role.BUYER)) {
+            servletContext.setAttribute("cart", new Cart(auth.getName(), new ArrayList<CardItem>()));
+            modelAndView.setViewName("redirect:/buyer/");
         }
         return modelAndView;
     }
