@@ -3,6 +3,7 @@ package edu.miu.waa.onlineshopping.data.jpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +21,20 @@ public class OrderEntity {
     private Integer orderId;
 
     @Column(name = "ORDERED_DATE", columnDefinition = "DATE DEFAULT CURRENT_DATE")
-    private java.sql.Date orderDate;
+    private LocalDate orderDate;
 
     @Column(name = "SHIPPED_DATE")
-    private java.sql.Date shippedDate;
+    private LocalDate shippedDate;
 
     private String status;
 
     @OneToOne(fetch = FetchType.EAGER)
     private UserEntity owner;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private AddressEntity shipto;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<OrderItemEntity> orderItems = new ArrayList<>();
 
     private double total;

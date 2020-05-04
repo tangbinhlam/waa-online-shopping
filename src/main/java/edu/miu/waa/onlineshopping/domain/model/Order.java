@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +17,15 @@ import java.util.List;
 @ToString
 public class Order {
     private Integer orderId;
-    private java.sql.Date orderDate;
-    private java.sql.Date shippedDate;
+    private LocalDate orderDate;
+    private LocalDate shippedDate;
     private OrderStatus status;
     private User owner;
     private Address shipto;
     private List<OrderItem> orderItems = new ArrayList<>();
     private double total;
 
-    private Order(Integer orderId, Date orderDate, Date shippedDate, OrderStatus status,
+    private Order(Integer orderId, LocalDate orderDate, LocalDate shippedDate, OrderStatus status,
                   User owner, Address shipto, List<OrderItem> orderItems, double total) {
         this.orderId = orderId;
         this.orderDate = orderDate;
@@ -36,7 +37,7 @@ public class Order {
         this.total = total;
     }
 
-    public static Order of(Integer orderId, Date orderDate, Date shippedDate,
+    public static Order of(Integer orderId, LocalDate orderDate, LocalDate shippedDate,
                            OrderStatus status, User owner, Address shipto,
                            List<OrderItem> orderItems, double total) {
         return new Order(orderId, orderDate, shippedDate,

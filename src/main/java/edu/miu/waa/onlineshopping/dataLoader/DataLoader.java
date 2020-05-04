@@ -1,8 +1,9 @@
 package edu.miu.waa.onlineshopping.dataLoader;
 
-import edu.miu.waa.onlineshopping.domain.model.Product;
-import edu.miu.waa.onlineshopping.domain.model.User;
+import edu.miu.waa.onlineshopping.domain.model.*;
+import edu.miu.waa.onlineshopping.domain.vo.OrderStatus;
 import edu.miu.waa.onlineshopping.domain.vo.Role;
+import edu.miu.waa.onlineshopping.service.OrderService;
 import edu.miu.waa.onlineshopping.service.ProductService;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,28 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Component
 public class DataLoader implements ApplicationRunner {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final ProductService productService;
+
+    private final OrderService orderService;
 
     @Autowired
-    private ProductService productService;
+    public DataLoader(UserService userService, ProductService productService, OrderService orderService) {
+        this.userService = userService;
+        this.productService = productService;
+        this.orderService = orderService;
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -49,8 +61,9 @@ public class DataLoader implements ApplicationRunner {
                 "You want to buy something? I have it for you let go to my product to get it")));
 
         System.out.println("BUYER:");
-        System.out.println(userService.save(User.of(id++, "Buyer", "Buyer", "Dong", "Tang", true, "dongtang@yahoo.com", "0978548623",
-                Role.BUYER, "")));
+        User buyer = userService.save(User.of(id++, "Buyer", "Buyer", "Dong", "Tang", true, "dongtang@yahoo.com", "0978548623",
+                Role.BUYER, ""));
+        System.out.println(buyer);
 
         System.out.println("============================Init database for table PRODUCT ==============================");
         System.out.println("============================Add product for seller 1 ==============================");
@@ -98,5 +111,36 @@ public class DataLoader implements ApplicationRunner {
         System.out.println("END ID = " + id);
 
         System.out.println(productService.findProductsByIds(Arrays.asList(16, 18, 20)).stream().map(Product::getProductId).collect((Collectors.toList())));
+
+
+        System.out.println("TEST CART = " + id);
+        Cart cart = new Cart();
+        cart.addItemToCart(16);
+        cart.addItemToCart(18);
+        cart.addItemToCart(9);
+        cart.addItemToCart(11);
+        cart.addItemToCart(13);
+
+        List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
+        cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
+                cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
+
+        List<CardItem> cardItems = cart.getCardItems();
+        Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
+
+        List<Order> orders = new ArrayList<>();
+        maps.forEach( (key, value) -> {
+            Order order = new Order();
+            order.setOrderItems(value.stream().map( cardItem ->
+                    OrderItem.of(Integer.MIN_VALUE, cardItem.getQuantity(), cardItem.getProduct().getPrice(), cardItem.getProduct())).collect(Collectors.toList()));
+            order.setOrderDate(LocalDate.of(2020,5,1));
+            order.setOwner(buyer);
+            order.setShippedDate(LocalDate.of(2020,5,1));
+            Address address = Address.of(Integer.MIN_VALUE, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
+            order.setShipto(address);
+            order.setStatus(OrderStatus.PLACE_ORDER);
+            System.out.println(orderService.save(order));
+        });
+        System.out.println(maps);
     }
 }
