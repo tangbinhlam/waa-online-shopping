@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Controller
 @RequestMapping("/buyer**")
-@SessionAttributes({"products", "user"})
+@SessionAttributes({"products", "user", "orders"})
 public class BuyerController {
 
     private final ProductService productService;
@@ -68,6 +71,23 @@ public class BuyerController {
         model.addAttribute("total", sum);
         System.out.println(cart);
         return "buyer/cart-detail";
+    }
+
+    @GetMapping(value = "/orders/view")
+    public String orderView(Model model) {
+        Cart cart = getCurrentCart();
+        List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
+        cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
+                cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
+
+        List<CardItem> cardItems = cart.getCardItems();
+        Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
+        double sum = cart.getCardItems().stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
+        servletContext.setAttribute("cart", cart);
+        model.addAttribute("orders", maps.values());
+        model.addAttribute("total", sum);
+        System.out.println(cart);
+        return "buyer/order-review";
     }
 
     private Cart getCurrentCart() {
