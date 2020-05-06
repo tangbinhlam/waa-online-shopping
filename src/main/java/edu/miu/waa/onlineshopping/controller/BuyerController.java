@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Controller
 @RequestMapping("/buyer**")
-@SessionAttributes({"products", "user", "orders"})
+@SessionAttributes({"products", "user", "orders", "shippingAddress"})
 public class BuyerController {
 
     private final ProductService productService;
@@ -35,8 +35,11 @@ public class BuyerController {
 
     @GetMapping(value = {""})
     public String home(Model model) {
-        List<Product> products = productService.findAll();
-        model.addAttribute("products", products);
+        Object products = model.getAttribute("products");
+        if(products == null) {
+            products = productService.findAll();
+            model.addAttribute("products", products);
+        }
         return "buyer/buyer-home";
     }
 
@@ -73,13 +76,12 @@ public class BuyerController {
         return "buyer/cart-detail";
     }
 
-    @GetMapping(value = "/orders/view")
+    @GetMapping(value = "/orders")
     public String orderView(Model model) {
         Cart cart = getCurrentCart();
         List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
                 cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
-
         List<CardItem> cardItems = cart.getCardItems();
         Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
         double sum = cart.getCardItems().stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);

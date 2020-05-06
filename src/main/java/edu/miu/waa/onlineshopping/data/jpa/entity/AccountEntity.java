@@ -3,6 +3,7 @@ package edu.miu.waa.onlineshopping.data.jpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,14 +21,11 @@ public class AccountEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private AddressEntity billingAddress;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private UserEntity owner;
-
     @Column(name = "OPEN")
-    private java.sql.Date open;
+    private LocalDate open;
 
     @Column(name = "CLOSED")
-    private java.sql.Date closed;
+    private LocalDate closed;
 
     private Double balance;
 }

@@ -3,6 +3,7 @@ package edu.miu.waa.onlineshopping.data.jpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class PaymentEntity {
     private Integer paymentId;
 
     @Column(name = "PAID", columnDefinition = "DATE DEFAULT CURRENT_DATE")
-    private java.sql.Date paid;
+    private LocalDate paid;
 
     private double total;
 

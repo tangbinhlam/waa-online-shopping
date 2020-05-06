@@ -47,6 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(loginPage).permitAll()
                 .antMatchers("/not-approved-yet").permitAll()
                 .antMatchers("/unAuth").permitAll()
+                .antMatchers("/registration").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/download/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")

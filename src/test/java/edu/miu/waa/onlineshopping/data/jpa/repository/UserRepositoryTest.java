@@ -20,7 +20,7 @@ public class UserRepositoryTest {
     @Test
     public void add_user_saved_successfull() {
         // Given
-        UserEntity newUser = new UserEntity("xxx", "xxx", "xxx@gmail.com", "0973859577", "ADMIN", "Lam", "Tang","About us");
+        UserEntity newUser = new UserEntity("xxx", "xxx", "xxx@gmail.com", "0973859577", "ADMIN", "Lam", "Tang","About us", null);
         // When
         userRepository.save(newUser);
         UserEntity userEntitie = userRepository.findByUserName("xxx");

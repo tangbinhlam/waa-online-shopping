@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,23 +14,20 @@ import java.sql.Date;
 public class Account {
     private Integer accountId;
     private Address billingAddress;
-    private User owner;
-    private java.sql.Date open;
-    private java.sql.Date closed;
+    private LocalDate open;
+    private LocalDate closed;
     private double balance;
 
-    private Account(Integer accountId, double balance, Address billingAddress,
-                    User owner, Date open, Date closed) {
+    private Account(Integer accountId, double balance, Address billingAddress, LocalDate open, LocalDate closed) {
         this.accountId = accountId;
         this.billingAddress = billingAddress;
-        this.owner = owner;
         this.open = open;
         this.closed = closed;
+        this.balance = balance;
     }
 
-    public static Account of(Integer accountId, double balance, Address billingAddress,
-                             User owner, Date open, Date closed) {
-        return new Account(accountId, balance, billingAddress, owner, open, closed);
+    public static Account of(Integer accountId, double balance, Address billingAddress, LocalDate open, LocalDate closed) {
+        return new Account(accountId, balance, billingAddress, open, closed);
     }
 }
 //TODO: Put validate && Should not have setter all data process by construct then we can

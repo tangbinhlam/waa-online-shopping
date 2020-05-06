@@ -27,7 +27,7 @@ class ProductRepositoryAdapterTest {
     @Test
     void save() {
         User user = User.of(1, "Lamtangxx", "Lamtangxx", "Lam", "Tang", true, "lamtang@yahoo.com", "0978548677",
-                Role.SELLER, "I'm a admin I manager to approve new seller and review the review are made by buyer"
+                Role.SELLER, "I'm a admin I manager to approve new seller and review the review are made by buyer",null
 
         );
         User userSaved = userRepositoryAdapter.save(user);

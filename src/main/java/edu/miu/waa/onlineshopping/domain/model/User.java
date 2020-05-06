@@ -4,6 +4,7 @@ import edu.miu.waa.onlineshopping.domain.vo.Role;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -38,7 +39,10 @@ public class User {
     private String aboutUs;
     private Role role;
 
-    private User(Integer userId, String userName, String password, String name, String lastName, Boolean active, String email, String phone, Role role, String aboutUs) {
+    @Valid
+    Account account;
+
+    private User(Integer userId, String userName, String password, String name, String lastName, Boolean active, String email, String phone, Role role, String aboutUs, Account account) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -49,13 +53,14 @@ public class User {
         this.phone = phone;
         this.role = role;
         this.aboutUs = aboutUs;
+        this.account = account;
     }
 
     public static User of(Role role){
-        return new User(null, null, null, null, null, true, null, null, role, null);
+        return new User(null, null, null, null, null, true, null, null, role,null, null);
     }
 
-    public static User of(Integer userId, String userName, String password, String name, String lastName, Boolean active, String email, String phone, Role role, String aboutUs) {
-        return new User(userId, userName, password, name, lastName, active, email, phone, role, aboutUs);
+    public static User of(Integer userId, String userName, String password, String name, String lastName, Boolean active, String email, String phone, Role role, String aboutUs, Account account) {
+        return new User(userId, userName, password, name, lastName, active, email, phone, role, aboutUs, account);
     }
 }

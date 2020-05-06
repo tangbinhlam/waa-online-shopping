@@ -40,7 +40,10 @@ public class UserEntity {
 
     private String role;
 
-    public UserEntity(String userName, String password, String email, String phone, String role, String name, String lastName, String aboutUs) {
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private AccountEntity acount;
+
+    public UserEntity(String userName, String password, String email, String phone, String role, String name, String lastName, String aboutUs, AccountEntity acount) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -50,5 +53,6 @@ public class UserEntity {
         this.lastName = lastName;
         this.active = false;
         this.aboutUs = aboutUs;
+        this.acount = acount;
     }
 }

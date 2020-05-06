@@ -8,12 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountEntityDomainMapper {
 
-    private UserEntityDomainMapper userEntityDomainMapper;
     private AddressEntityDomainMapper addressEntityDomainMapper;
 
     @Autowired
-    public AccountEntityDomainMapper(UserEntityDomainMapper userEntityDomainMapper, AddressEntityDomainMapper addressEntityDomainMapper) {
-        this.userEntityDomainMapper = userEntityDomainMapper;
+    public AccountEntityDomainMapper(AddressEntityDomainMapper addressEntityDomainMapper) {
         this.addressEntityDomainMapper = addressEntityDomainMapper;
     }
 
@@ -22,17 +20,18 @@ public class AccountEntityDomainMapper {
                 Account.of(accountEntity.getAccountId(),
                         accountEntity.getBalance(),
                         addressEntityDomainMapper.mapToDomain(accountEntity.getBillingAddress()),
-                        userEntityDomainMapper.mapToDomain(accountEntity.getOwner()),
                         accountEntity.getOpen(),
                         accountEntity.getClosed()
                 ) : null;
     }
 
     public AccountEntity mapToEntity(Account account) {
+        if(account == null) {
+            return null;
+        }
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setAccountId(account.getAccountId());
         accountEntity.setBillingAddress(addressEntityDomainMapper.mapToEntity(account.getBillingAddress()));
-        accountEntity.setOwner(userEntityDomainMapper.mapToEntity(account.getOwner()));
         accountEntity.setOpen(account.getOpen());
         accountEntity.setClosed(account.getClosed());
         accountEntity.setBalance(account.getBalance());

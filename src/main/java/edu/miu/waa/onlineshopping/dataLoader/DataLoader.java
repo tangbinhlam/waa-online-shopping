@@ -39,29 +39,47 @@ public class DataLoader implements ApplicationRunner {
         System.out.println("INIT DATABASE");
         System.out.println("============================Init database for table USER==============================");
         System.out.println(userService.save(User.of(null, "Lamtang", "Lamtang", "Lam", "Tang", true, "lamtang@yahoo.com", "0978548677",
-                Role.ADMIN, "I'm a admin I manager to approve new seller and review the review are made by buyer"
-
+                Role.ADMIN, "I'm a admin I manager to approve new seller and review the review are made by buyer",null
         )));
-        System.out.println("SELLER:");
-        User seller1 = userService.save(User.of(null, "Seller", "Seller", "Hoai", "Tang", true, "hoaittang@yahoo.com", "0978548622",
+        System.out.println("SELLER: Hoai");
+        Account account = Account.of(null, 500000.00,
+                Address.of(null, "300 N Court St", "3E", "IA", "Fairfield", "52556", "USA"),
+                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+        User newSeller1 = User.of(null, "Seller", "Seller", "Hoai", "Tang", true, "hoaittang@yahoo.com", "0978548622",
                 Role.SELLER,
                 "When i was a child i wish when i can become a seller to buy some great product to help who want to have a good product can be had it and now I'm a seller. I hope you can buy my product and i'm sure that it is great prodcut with price resonable"
-        ));
+                ,account);
+        User seller1 = userService.save(newSeller1);
         System.out.println(seller1);
 
-        System.out.println("SELLER 1:");
-        User seller2 = userService.save(User.of(null, "Seller1", "Seller", "Hung", "Tang", true, "hungtang@yahoo.com", "0978548621",
+        System.out.println("SELLER: Hung");
+        Account account2 = Account.of(null, 500000.00,
+                Address.of(null, "2701 W Burlington Ave", "2K", "IA", "Fairfield", "52556", "USA"),
+                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+        User newSeller2 = User.of(null, "Seller1", "Seller", "Hung", "Tang", true, "hungtang@yahoo.com", "0978548621",
                 Role.SELLER,
-                "I very like the seller so I become a seller and I hope I can sell somethings"));
+                "I very like the seller so I become a seller and I hope I can sell somethings"
+                ,account2);
+        User seller2 = userService.save(newSeller2);
         System.out.println(seller2);
 
-        System.out.println(userService.save(User.of(null, "Seller2", "Seller", "Trong", "Tang", false, "trongtang@yahoo.com", "0978548621",
+        System.out.println("SELLER: Trong Inactive");
+        Account account3 = Account.of(null, 500000.00,
+                Address.of(null, "707 W Burlington Ave", "2K", "IA", "Fairfield", "52556", "USA"),
+                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+        User newSeller3 = User.of(null,"Seller2", "Seller", "Trong", "Tang", false, "trongtang@yahoo.com", "0978548621",
                 Role.SELLER,
-                "You want to buy something? I have it for you let go to my product to get it")));
+                "You want to buy something? I have it for you let go to my product to get it"
+                ,account3);
+        User seller3 = userService.save(newSeller3);
+        System.out.println(seller3);
 
         System.out.println("BUYER:");
+        Account account4 = Account.of(null, 500000.00,
+                Address.of(null, "2000 S Main St", "2K", "IA", "Fairfield", "52556", "USA"),
+                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
         User buyer = userService.save(User.of(null, "Buyer", "Buyer", "Dong", "Tang", true, "dongtang@yahoo.com", "0978548623",
-                Role.BUYER, ""));
+                Role.BUYER, "", account4));
         System.out.println(buyer);
 
         System.out.println("============================Init database for table PRODUCT ==============================");
@@ -113,9 +131,10 @@ public class DataLoader implements ApplicationRunner {
         Cart cart = new Cart();
         cart.addItemToCart(16);
         cart.addItemToCart(18);
-        cart.addItemToCart(9);
-        cart.addItemToCart(11);
-        cart.addItemToCart(13);
+        cart.addItemToCart(19);
+        cart.addItemToCart(26);
+        cart.addItemToCart(27); cart.addItemToCart(27);
+        cart.addItemToCart(28);
 
         List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
