@@ -5,17 +5,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class Address {
     private Integer addressId;
+
+    @NotEmpty
     private String addressLine1;
     private String addressLine2;
+
+    @NotEmpty
     private String city;
+
+    @NotEmpty
     private String state;
+
+    @NotEmpty
     private String postcode;
+
+    @NotEmpty
     private String country;
 
     private Address(Integer addressId, String addressLine1, String addressLine2,

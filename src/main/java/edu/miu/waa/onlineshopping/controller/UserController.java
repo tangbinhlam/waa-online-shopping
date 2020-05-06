@@ -1,7 +1,7 @@
 package edu.miu.waa.onlineshopping.controller;
 
-import edu.miu.waa.onlineshopping.domain.vo.Role;
 import edu.miu.waa.onlineshopping.domain.model.User;
+import edu.miu.waa.onlineshopping.domain.vo.Role;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -58,8 +58,7 @@ public class UserController {
 
     // TODO Need to redirect app PRG (POST/REDIRECT/GET)
     @PostMapping(value = "/registration")
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String createNewUser(@Valid User user, BindingResult bindingResult) {
         User userExists = userService.findUserByUserName(user.getUserName());
         if (userExists != null) {
             bindingResult
@@ -67,18 +66,13 @@ public class UserController {
                             "There is already a user registered with the user name provided");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration");
+            return "registration";
         } else {
             user.setActive(user.getRole() != Role.SELLER);
-            User user1 = userService.save(user);
-            System.out.println("Saved User:");
-            System.out.println(user1.toString());
-            modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
+            userService.save(user);
+            return "redirect:/";
 
         }
-        return modelAndView;
     }
 
 }

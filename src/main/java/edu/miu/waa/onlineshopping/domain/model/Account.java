@@ -4,7 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -13,9 +17,21 @@ import java.time.LocalDate;
 @ToString
 public class Account {
     private Integer accountId;
+
+    @Valid
     private Address billingAddress;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @NotNull
     private LocalDate open;
+
+    //TODO: add validate closed date should > open date
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @NotNull
     private LocalDate closed;
+
+    @Min(value = 201, message = "{0} must > 200$")
+    @NotNull
     private double balance;
 
     private Account(Integer accountId, double balance, Address billingAddress, LocalDate open, LocalDate closed) {
