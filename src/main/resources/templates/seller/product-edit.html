@@ -26,7 +26,7 @@
         <div class="col-md-9">
             <form class="product-form" method="POST" action="#"
                   enctype="multipart/form-data"
-                  th:action="@{/seller/products/new}" th:object="${product}">
+                  th:action="@{/seller/products}" th:object="${product}">
                 <div class="form-group">
                     <div class="col-lg-10">
                         <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"

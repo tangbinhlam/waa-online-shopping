@@ -42,8 +42,8 @@
                     <td class="col-sm-1 col-md-1" style="text-align: center">
                         <h4 class="text-center" readonly th:text="${cartItem.quantity}"></h4>
                     </td>
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${#numbers.formatDecimal(cartItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}"><strong>$4.87</strong></td>
-                    <td class="col-sm-1 col-md-1 text-center" th:text="${#numbers.formatDecimal(cartItem.product.getPrice() * cartItem.quantity, 0, 'COMMA', 2, 'POINT')}"><strong>$14.61</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${'$'+ #numbers.formatDecimal(cartItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}"><strong>$4.87</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center" th:text="${'$'+ #numbers.formatDecimal(cartItem.product.getPrice() * cartItem.quantity, 0, 'COMMA', 2, 'POINT')}"><strong>$14.61</strong></td>
                     <td class="col-sm-1 col-md-1">
                         <form th:object="${cartItem}" method="post"
                               th:action="@{/buyer/carts/{productId}/remove(productId = ${cartItem.getProductId()})}">
@@ -59,7 +59,7 @@
                     <td>   </td>
                     <td>   </td>
                     <td><h5>Subtotal</h5></td>
-                    <td class="text-right"><h5 th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"><strong>$24.59</strong></h5></td>
+                    <td class="text-right"><h5 th:text="${'$'+ #numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"><strong>$24.59</strong></h5></td>
                 </tr>
                 <tr>
                     <td>   </td>
@@ -73,7 +73,7 @@
                     <td>   </td>
                     <td>   </td>
                     <td><h3>Total</h3></td>
-                    <td class="text-right"><h3 th:text="${#numbers.formatDecimal(total + 5* cardItems.size(), 0, 'COMMA', 2, 'POINT')}"><strong>$31.53</strong></h3></td>
+                    <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(total + 5* cardItems.size(), 0, 'COMMA', 2, 'POINT')}"><strong>$31.53</strong></h3></td>
                 </tr>
                 <tr>
                     <td>   </td>

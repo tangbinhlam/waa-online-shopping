@@ -31,6 +31,9 @@ public class OrderEntity {
     @OneToOne(fetch = FetchType.EAGER)
     private UserEntity owner;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    private UserEntity seller;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private AddressEntity shipto;
 

@@ -1,10 +1,10 @@
 package edu.miu.waa.onlineshopping.domain.vo;
 
 public enum  OrderStatus {
-    ORDER("ORDER"),
+    REJECT("REJECT"),
     PLACE_ORDER("PLACE_ORDER"),
     SHIPPED("SHIPPED"),
-    DELEVERED("DELEVERED");
+    DELIVERED("DELIVERED");
 
     private String orderStatus;
     private OrderStatus(String orderStatus) {

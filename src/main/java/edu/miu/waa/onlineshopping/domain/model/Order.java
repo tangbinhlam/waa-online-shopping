@@ -21,26 +21,28 @@ public class Order {
     private LocalDate shippedDate;
     private OrderStatus status;
     private User owner;
+    private User seller;
     private Address shipto;
     private List<OrderItem> orderItems = new ArrayList<>();
     private double total;
 
     private Order(Integer orderId, LocalDate orderDate, LocalDate shippedDate, OrderStatus status,
-                  User owner, Address shipto, List<OrderItem> orderItems, double total) {
+                  User owner, User seller, Address shipto, List<OrderItem> orderItems, double total) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.shippedDate = shippedDate;
         this.status = status;
         this.owner = owner;
+        this.seller = seller;
         this.shipto = shipto;
         this.orderItems = orderItems;
         this.total = total;
     }
 
     public static Order of(Integer orderId, LocalDate orderDate, LocalDate shippedDate,
-                           OrderStatus status, User owner, Address shipto,
+                           OrderStatus status, User owner, User seller, Address shipto,
                            List<OrderItem> orderItems, double total) {
         return new Order(orderId, orderDate, shippedDate,
-                status, owner, shipto, orderItems, total);
+                status, owner, seller, shipto, orderItems, total);
     }
 }

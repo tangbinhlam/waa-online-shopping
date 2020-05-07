@@ -31,6 +31,11 @@ public class OrderRepositoryAdapter implements OrderDomainRepository {
     }
 
     @Override
+    public Order findOrderById(Integer orderId) {
+        return orderEntityDomainMapper.mapToDomain(orderRepository.findById(orderId).get());
+    }
+
+    @Override
     public Order changeOrderStatus(Integer orderId, OrderStatus orderStatus) {
         OrderEntity orderEntity = orderRepository.findById(orderId).get();
         orderEntity.setStatus(orderStatus.toString());
@@ -52,5 +57,10 @@ public class OrderRepositoryAdapter implements OrderDomainRepository {
     public List<Order> findAll() {
         return StreamSupport.stream(orderRepository.findAll().spliterator(), false)
                 .map(orderEntityDomainMapper::mapToDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Order> findOrderBySeller(Integer sellerId) {
+        return orderRepository.findOrderBySeller(sellerId).stream().map(orderEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
 }
