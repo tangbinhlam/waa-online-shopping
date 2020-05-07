@@ -27,30 +27,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = {"/", "/login"})
+    @GetMapping(value = {"/login"})
     public ModelAndView login(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
-    }
-
-    @GetMapping(value = "/401")
-    public ModelAndView accesssDenied() {
-
-        ModelAndView model = new ModelAndView();
-
-        // check if user is login
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetail = (UserDetails) auth.getPrincipal();
-            System.out.println(userDetail);
-
-            model.addObject("username", userDetail.getUsername());
-
-        }
-        model.setViewName("alert-not-approve-yet");
-        return model;
-
     }
 
     @GetMapping(value = "/registration")

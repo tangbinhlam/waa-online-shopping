@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
 
     private final UserService userService;
@@ -35,7 +35,9 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
-        if (user.getRole().equals(Role.ADMIN)) {
+        if (user==null) {
+            modelAndView.setViewName("redirect:/login");
+        }else if (user.getRole().equals(Role.ADMIN)){
             modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
             modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
             modelAndView.setViewName("admin/home");
