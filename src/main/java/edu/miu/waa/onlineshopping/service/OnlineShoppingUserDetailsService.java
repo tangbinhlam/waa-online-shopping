@@ -1,5 +1,6 @@
 package edu.miu.waa.onlineshopping.service;
 
+import edu.miu.waa.onlineshopping.domain.repository.UserDomainRepository;
 import edu.miu.waa.onlineshopping.domain.vo.Role;
 import edu.miu.waa.onlineshopping.domain.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,17 @@ import java.util.Set;
 @Service
 public class OnlineShoppingUserDetailsService implements UserDetailsService {
 
+    private final UserDomainRepository userDomainRepository;
+
     @Autowired
-    private UserService userService;
+    public OnlineShoppingUserDetailsService(UserDomainRepository userDomainRepository) {
+        this.userDomainRepository = userDomainRepository;
+    }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) {
-        User user = userService.findUserByUserName(userName);
+        User user = userDomainRepository.findUserByUserName(userName);
         List<GrantedAuthority> authorities = getUserAuthority(user.getRole());
         return buildUserForAuthentication(user, authorities);
     }
