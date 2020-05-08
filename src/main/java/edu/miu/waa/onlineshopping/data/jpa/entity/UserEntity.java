@@ -33,7 +33,7 @@ public class UserEntity {
 
     private String email;
 
-    @Column(name = "ABOUT_Us")
+    @Column(name = "ABOUT_US")
     private String aboutUs;
 
     private String phone;

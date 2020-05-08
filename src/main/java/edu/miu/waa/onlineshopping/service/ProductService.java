@@ -1,6 +1,7 @@
 package edu.miu.waa.onlineshopping.service;
 
 import edu.miu.waa.onlineshopping.domain.model.Product;
+import edu.miu.waa.onlineshopping.domain.model.ProductComment;
 import edu.miu.waa.onlineshopping.domain.repository.ProductDomainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,12 @@ public class ProductService {
     @Transactional
     public boolean delete(Integer productId) {
         return productDomainRepository.delete(productId);
+    }
+
+    @Transactional
+    public Product addCommentToProduct(Integer productId, ProductComment comment) {
+        Product product = productDomainRepository.findProductByProductId(productId);
+        product.addCommentToCart(comment);
+        return productDomainRepository.save(product);
     }
 }
