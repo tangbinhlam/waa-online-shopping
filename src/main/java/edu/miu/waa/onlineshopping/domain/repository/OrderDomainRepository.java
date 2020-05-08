@@ -8,8 +8,11 @@ import java.util.List;
 public interface OrderDomainRepository {
     Order save(Order order);
     Order findOrderById(Integer orderId);
-    Order changeOrderStatus(Integer orderId, OrderStatus orderStatus);
-    boolean cancelOrder(Integer orderId);
+    Order cancelOrder(Integer orderId);
+    Order rejectOrder(Integer orderId);
+    Order deliveredOrder(Integer orderId);
+    Order approveOrder(Integer orderId);
     List<Order> findAll();
     List<Order> findOrderBySeller(Integer sellerId);
+    List<Order> findOrderHistory(Integer buyer);
 }

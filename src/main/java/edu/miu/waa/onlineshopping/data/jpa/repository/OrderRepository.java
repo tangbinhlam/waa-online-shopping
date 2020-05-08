@@ -10,4 +10,7 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<OrderEntity, Integer> {
     @Query("select o from OrderEntity o where o.seller.userId = ?1")
     List<OrderEntity> findOrderBySeller(int sellerId);
+
+    @Query("select o from OrderEntity o where o.owner.userId = ?1")
+    List<OrderEntity> findOrderHistory(int buyerId);
 }

@@ -26,6 +26,7 @@ public class OrderEntityDomainMapper {
                 Order.of(orderEntity.getOrderId(),
                         orderEntity.getOrderDate(),
                         orderEntity.getShippedDate(),
+                        orderEntity.getDeliveredDate(),
                         OrderStatus.of(orderEntity.getStatus()),
                         userEntityDomainMapper.mapToDomain(orderEntity.getOwner()),
                         userEntityDomainMapper.mapToDomain(orderEntity.getSeller()),
@@ -40,6 +41,7 @@ public class OrderEntityDomainMapper {
         orderEntity.setOrderId(order.getOrderId());
         orderEntity.setOrderDate(order.getOrderDate());
         orderEntity.setShippedDate(order.getShippedDate());
+        orderEntity.setDeliveredDate(order.getDeliveredDate());
         orderEntity.setStatus(order.getStatus().toString());
         orderEntity.setTotal(order.getTotal());
         orderEntity.setOrderItems(orderItemEntityDomainMapper.mapToEntities(order.getOrderItems()));

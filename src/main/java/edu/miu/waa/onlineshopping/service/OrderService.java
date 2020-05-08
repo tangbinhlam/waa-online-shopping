@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -33,8 +34,24 @@ public class OrderService {
         return null;
     }
 
-    public Order save(Order order) {
-        return orderDomainRepository.save(order);
+    public void save(Cart cart, User buyer, Address address) {
+        List<CardItem> cardItems = cart.getCardItems();
+        Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
+
+        maps.forEach((key, value) -> {
+            Order order = new Order();
+            double sum = value.stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
+            order.setOrderItems(value.stream().map(cardItem ->
+                    OrderItem.of(null, cardItem.getQuantity(), cardItem.getProduct().getPrice(), cardItem.getProduct())).collect(Collectors.toList()));
+            order.setOrderDate(LocalDate.now());
+            order.setOwner(buyer);
+            order.setSeller(order.getOrderItems().get(0).getProduct().getSupplier());
+            order.setShippedDate(null);
+            order.setShipto(address);
+            order.setTotal(sum);
+            order.setStatus(OrderStatus.PLACE_ORDER);
+            System.out.println(orderDomainRepository.save(order));
+        });
     }
 
     public List<Order> findOrderBySeller(Integer sellerId) {
@@ -46,16 +63,24 @@ public class OrderService {
     }
 
     public void approvedOrder(Integer orderId) {
-        Order order = orderDomainRepository.changeOrderStatus(orderId, OrderStatus.SHIPPED);
+        Order order = orderDomainRepository.approveOrder(orderId);
         Payment payment = Payment.of(null, LocalDate.now(), order.getTotal(), "Pay for buying", order, order.getOwner().getAccount(), order.getSeller().getAccount());
         paymentDomainRepository.save(payment);
     }
 
     public void rejectOrder(Integer orderId) {
-        Order order = orderDomainRepository.changeOrderStatus(orderId, OrderStatus.REJECT);
+        Order order = orderDomainRepository.rejectOrder(orderId);
     }
 
     public void changeToDeliveredOrder(Integer orderId) {
-        Order order = orderDomainRepository.changeOrderStatus(orderId, OrderStatus.DELIVERED);
+        Order order = orderDomainRepository.deliveredOrder(orderId);
+    }
+
+    public void cancelOrder(Integer orderId) {
+        Order order = orderDomainRepository.cancelOrder(orderId);
+    }
+
+    public List<Order> findOrderHistory(Integer buyerId) {
+        return orderDomainRepository.findOrderHistory(buyerId);
     }
 }

@@ -52,6 +52,7 @@
                     <th>Quantity</th>
                     <th class="text-center">Price</th>
                     <th class="text-center">Total</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,7 +67,7 @@
                                     name</a></h4>
                                 <h5 class="media-heading"> by <a href="#" th:text="${orderItem.product.producer}">Brand
                                     name</a></h5>
-                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                                <span>Seller: </span><span class="text-success"><strong th:text="${orderItem.product.supplier.name + ', ' + orderItem.product.supplier.lastName}">In Stock</strong></span>
                             </div>
                         </div>
                     </td>
@@ -80,10 +81,19 @@
                     <td class="col-sm-1 col-md-1 text-center"
                         th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice() * orderItem.quantity, 0, 'COMMA', 2, 'POINT')}">
                         <strong>$14.61</strong></td>
+                    <td th:if="${!order.status.toString().equals('DELIVERED')}"></td>
+                    <td th:if="${order.status.toString().equals('DELIVERED')}" class="text-center">
+                        <form  th:action="@{/seller/products/{productId}/review(orderId = ${orderItem.getProduct().productId})}" method="Get">
+                            <button type="submit" class="btn btn-success">
+                                Write review <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 <tr>
                     <td>  </td>
                     <td>  </td>
+                    <td></td>
                     <td></td>
                     <td><h3>Total</h3></td>
                     <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
@@ -93,22 +103,12 @@
                     <td>  </td>
                     <td>  </td>
                     <td>  </td>
-                    <td>
-                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}" th:action="@{/seller/orders/{orderId}/approve(orderId = ${order.getOrderId()})}" method="POST">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> Approve
-                            </button>
-                        </form>
-                    </td>
-                    <td>
-                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}" th:action="@{/seller/orders/{orderId}/reject(orderId = ${order.getOrderId()})}" method="POST">
-                            <button type="submit" class="btn btn-danger">
-                                Reject <span class="glyphicon glyphicon-p  lay"></span>
-                            </button>
-                        </form>
-                        <form th:if="${order.status.toString().equals('SHIPPED')}" th:action="@{/seller/orders/{orderId}/delivered(orderId = ${order.getOrderId()})}" method="POST">
-                            <button type="submit" class="btn btn-primary">
-                                Change to delivered<span class="glyphicon glyphicon-play"></span>
+                    <td>  </td>
+                    <td>  </td>
+                    <td class="text-left">
+                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}" th:action="@{/buyer/orders/{orderId}/cancel(orderId = ${order.getOrderId()})}" method="POST">
+                            <button type="submit" class="btn btn-primary btn-danger">
+                                <span class="glyphicon glyphicon-play"></span> Cancel order
                             </button>
                         </form>
                     </td>

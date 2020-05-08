@@ -2,6 +2,7 @@ package edu.miu.waa.onlineshopping.domain.vo;
 
 public enum  OrderStatus {
     REJECT("REJECT"),
+    CANCEL("CANCEL"),
     PLACE_ORDER("PLACE_ORDER"),
     SHIPPED("SHIPPED"),
     DELIVERED("DELIVERED");

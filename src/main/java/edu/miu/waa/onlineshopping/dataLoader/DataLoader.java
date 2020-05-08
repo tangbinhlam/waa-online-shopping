@@ -139,26 +139,9 @@ public class DataLoader implements ApplicationRunner {
         List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
                 cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
+        Address address = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
+        orderService.save(cart, buyer, address);
 
-        List<CardItem> cardItems = cart.getCardItems();
-        Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
-
-        maps.forEach( (key, value) -> {
-            Order order = new Order();
-            double sum = value.stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
-            order.setOrderItems(value.stream().map( cardItem ->
-                    OrderItem.of(null, cardItem.getQuantity(), cardItem.getProduct().getPrice(), cardItem.getProduct())).collect(Collectors.toList()));
-            order.setOrderDate(LocalDate.of(2020,5,1));
-            order.setOwner(buyer);
-            order.setSeller(order.getOrderItems().get(0).getProduct().getSupplier());
-            order.setShippedDate(LocalDate.of(2020,5,1));
-            Address address = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
-            order.setShipto(address);
-            order.setTotal(sum);
-            order.setStatus(OrderStatus.PLACE_ORDER);
-            System.out.println(orderService.save(order));
-        });
-        System.out.println(maps);
         System.out.println("Print Order with status PLACE_ORDER");
         System.out.println("Print Order of user: " + seller1.getName());
         System.out.println(orderService.findOrderBySeller(seller1.getUserId()));

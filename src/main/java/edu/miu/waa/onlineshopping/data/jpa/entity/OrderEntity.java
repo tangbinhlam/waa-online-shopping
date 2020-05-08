@@ -26,6 +26,9 @@ public class OrderEntity {
     @Column(name = "SHIPPED_DATE")
     private LocalDate shippedDate;
 
+    @Column(name = "DELIVERED_DATE")
+    private LocalDate deliveredDate;
+
     private String status;
 
     @OneToOne(fetch = FetchType.EAGER)

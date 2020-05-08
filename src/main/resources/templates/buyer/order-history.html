@@ -13,14 +13,16 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <h1 th:text="${'Order Review List'}"></h1>
+            <h1 th:text="${'Order History'}"></h1>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th class="col-sm-4 col-md-2">Order Id</th>
-                    <th class="col-sm-4 col-md-2">Buyer</th>
-                    <th class="col-sm-1 col-md-2">Created Date</th>
+                    <th class="col-sm-4 col-md-2">Seller</th>
                     <th class="col-sm-1 col-md-2">Status</th>
+                    <th class="col-sm-1 col-md-2">Created Date</th>
+                    <th class="col-sm-1 col-md-2">Shipped Date</th>
+                    <th class="col-sm-1 col-md-2">Delivered Date</th>
                     <th class="col-sm-1 col-md-2">Total</th>
                     <th class="col-sm-1 col-md-2">Action</th>
                 </tr>
@@ -30,22 +32,23 @@
                     <td class="col-sm-4 col-md-2">
                         <label class="text-left" readonly th:text="${'P' + #numbers.formatInteger(order.getOrderId(),10)}"></label>
                     </td>
-                    <td class="col-sm-4 col-md-2">
-                        <label class="text-left" readonly th:text="${order.owner.getName() + ', ' + order.owner.getLastName()}"></label>
-                    </td>
-                    <td class="col-sm-1 col-md-2" style="text-align: center">
-                        <label class="text-left" readonly th:text="${order.getOrderDate()}"></label>
-                    </td>
-                    <td class="col-sm-1 col-md-2 text-left"
-                        th:style="${order.getStatus().toString().equals('CANCEL')|| order.getStatus().toString().equals('REJECT')? 'color: red' : 'color: green'}"
-                        th:text="${#messages.msgOrNull('orderStatus.' + order.getStatus().toString())}">
-                        <strong>$4.87</strong></td>
-                    <td class="col-sm-1 col-md-2 text-left"
-                        th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
-                        <strong>$14.61</strong>
+                    <td class="col-sm-4 col-md-2"
+                        th:text="${order.seller.getName() + ', ' + order.seller.getLastName()}">
                     </td>
                     <td class="col-sm-1 col-md-2 text-left">
-                        <form th:action="@{/seller/orders/{orderId}(orderId = ${order.getOrderId()})}" method="GET">
+                        <strong th:style="${order.getStatus().toString().equals('CANCEL')|| order.getStatus().toString().equals('REJECT')? 'color: red' : 'color: green'}" th:text="${#messages.msgOrNull('orderStatus.' + order.getStatus().toString())}">$4.87</strong>
+                    </td>
+                    <td class="col-sm-1 col-md-2" style="text-align: left" th:text="${order.getOrderDate()}">
+                    </td>
+                    <td class="col-sm-1 col-md-2" style="text-align: left" th:text="${order.getShippedDate()}">
+                    </td>
+                    <td class="col-sm-1 col-md-2" style="text-align: left" th:text="${order.getDeliveredDate()}">
+                    </td>
+                    <td class="col-sm-1 col-md-2 text-left">
+                        <strong th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">$14.61</strong>
+                    </td>
+                    <td class="col-sm-1 col-md-2 text-left">
+                        <form th:action="@{/buyer/orders/{orderId}/history(orderId = ${order.getOrderId()})}" method="Get">
                             <button type="submit" class="btn btn-primary">
                                 Review<span class="glyphicon glyphicon-play"></span>
                             </button>

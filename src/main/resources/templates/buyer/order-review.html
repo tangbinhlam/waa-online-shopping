@@ -18,10 +18,10 @@
 
                     <div class="order-status-timeline">
                         <!-- class names: c0 c1 c2 c3 and c4 -->
-                        <div class="order-status-timeline-completion c1"></div>
+                        <div class="order-status-timeline-completion c3"></div>
                     </div>
 
-                    <div class="image-order-status image-order-status-new img-circle">
+                    <div class="image-order-status image-order-status-new active img-circle">
                         <span class="status">Shopping</span>
                         <div class="icon"></div>
                     </div>
@@ -29,11 +29,11 @@
                         <span class="status">Review Order</span>
                         <div class="icon"></div>
                     </div>
-                    <div class="image-order-status image-order-status-intransit img-circle">
+                    <div class="image-order-status image-order-status-intransit active img-circle">
                         <span class="status">Add Shipping adress</span>
                         <div class="icon"></div>
                     </div>
-                    <div class="image-order-status image-order-status-delivered img-circle">
+                    <div class="image-order-status image-order-status-delivered active img-circle">
                         <span class="status">Payment</span>
                         <div class="icon"></div>
                     </div>
@@ -85,21 +85,6 @@
                         th:text="${'$'+ #numbers.formatDecimal(cartItem.product.getPrice() * cartItem.quantity, 0, 'COMMA', 2, 'POINT')}">
                         <strong>$14.61</strong></td>
                 </tr>
-                <tr>
-                    <td>  </td>
-                    <td>  </td>
-                    <td></td>
-                    <td><h5></h5></td>
-                    <td class="text-right"><h5><strong></strong></h5></td>
-                </tr>
-                <tr th:if="${iStat.last}">
-                    <td>  </td>
-                    <td>  </td>
-                    <td></td>
-                    <td><h5>Subtotal</h5></td>
-                    <td class="text-right"><h5 th:text="${'$'+ #numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}">
-                        <strong>$24.59</strong></h5></td>
-                </tr>
                 <tr th:if="${iStat.last}">
                     <td>  </td>
                     <td>  </td>
@@ -112,73 +97,96 @@
             </table>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="addressPanel">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <form class="form-horizontal" role="form">
                 <fieldset>
                     <!-- Form Name -->
                     <legend>Shipping Address</legend>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="textinput">Line 1</label>
-                        <div class="col-sm-10">
-                            <input type="text" placeholder="Address Line 1" class="form-control">
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="textinput">Line 2</label>
-                        <div class="col-sm-10">
-                            <input type="text" placeholder="Address Line 2" class="form-control">
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="textinput">City</label>
-                        <div class="col-sm-10">
-                            <input type="text" placeholder="City" class="form-control">
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="textinput">State</label>
-                        <div class="col-sm-4">
-                            <input type="text" placeholder="State" class="form-control">
-                        </div>
-
-                        <label class="col-sm-2 control-label" for="textinput">Postcode</label>
-                        <div class="col-sm-4">
-                            <input type="text" placeholder="Post Code" class="form-control">
-                        </div>
-                    </div>
-
-
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="textinput">Country</label>
-                        <div class="col-sm-10">
-                            <input type="text" placeholder="Country" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <div class="pull-right">
-                                <button type="submit" class="btn btn-default">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                    <form autocomplete="off" th:action="@{/buyer/orders/}"
+                          th:object="${address}" method="POST" class="form-horizontal"
+                          role="form">
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{registration.acount.address.addressLine1}">Line
+                                1</label>
+                            <div class="col-sm-10">
+                                <input type="text" th:field="*{addressLine1}" placeholder="Address Line 1"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('addressLine1')}" th:errors="*{addressLine1}"
+                                    class="validation-message"></label>
                             </div>
                         </div>
-                    </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{registration.acount.address.addressLine2}">Line
+                                2</label>
+                            <div class="col-sm-10">
+                                <input type="text" th:field="*{addressLine2}" placeholder="Address Line 2"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('addressLine2')}" th:errors="*{addressLine2}"
+                                    class="validation-message"></label>
+                            </div>
+                        </div>
 
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                   th:text="#{registration.acount.address.city}">City</label>
+                            <div class="col-sm-10">
+                                <input type="text" th:field="*{city}" placeholder="City"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('city')}" th:errors="*{city}"
+                                    class="validation-message"></label>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                   th:text="#{registration.acount.address.state}">State</label>
+                            <div class="col-sm-4">
+                                <input type="text" th:field="*{state}" placeholder="State"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('state')}" th:errors="*{state}"
+                                    class="validation-message"></label>
+                            </div>
+                            <label class="col-sm-2 control-label" th:text="#{registration.acount.address.postcode}">Postcode</label>
+                            <div class="col-sm-4">
+                                <input type="text" th:field="*{postcode}" placeholder="Postcode"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"
+                                    class="validation-message"></label>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{registration.acount.address.country}">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text" th:field="*{country}" placeholder="Country"
+                                       class="form-control"/> <label
+                                    th:if="${#fields.hasErrors('country')}" th:errors="*{city}"
+                                    class="validation-message"></label>
+                            </div>
+                        </div>
+                        <legend style="color: #0056b3">Note: Your payment will be automatic process to your account
+                            after seller approve your order.
+                        </legend>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-play"></span> Place Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </fieldset>
-            </form>
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
 </div>
 </body>
 </html>
+
+

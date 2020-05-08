@@ -1,16 +1,18 @@
 package edu.miu.waa.onlineshopping.controller;
 
-import edu.miu.waa.onlineshopping.domain.model.CardItem;
-import edu.miu.waa.onlineshopping.domain.model.Cart;
-import edu.miu.waa.onlineshopping.domain.model.Product;
+import edu.miu.waa.onlineshopping.domain.model.*;
+import edu.miu.waa.onlineshopping.service.OrderService;
 import edu.miu.waa.onlineshopping.service.ProductService;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,21 +27,32 @@ public class BuyerController {
     private final ProductService productService;
     private final UserService userService;
     private final ServletContext servletContext;
+    private final OrderService orderService;
 
     @Autowired
-    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext) {
+    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.servletContext = servletContext;
+        this.orderService = orderService;
+    }
+
+    @ModelAttribute("user")
+    public void getUser(Model model){
+        User user = (User)model.getAttribute("user");
+        if(user==null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            model.addAttribute("user", userService.findUserByUserName(auth.getName()));
+        }
     }
 
     @GetMapping(value = {""})
     public String home(Model model) {
-        Object products = model.getAttribute("products");
+        List<Product> products = (List<Product>)model.getAttribute("products");
         if(products == null) {
             products = productService.findAll();
-            model.addAttribute("products", products);
         }
+        model.addAttribute("products", products);
         return "buyer/buyer-home";
     }
 
@@ -85,11 +98,41 @@ public class BuyerController {
         List<CardItem> cardItems = cart.getCardItems();
         Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
         double sum = cart.getCardItems().stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
+        User user = (User)model.getAttribute("user");
         servletContext.setAttribute("cart", cart);
         model.addAttribute("orders", maps.values());
+        model.addAttribute("address", user.getAccount().getBillingAddress());
         model.addAttribute("total", sum);
         System.out.println(cart);
         return "buyer/order-review";
+    }
+
+    @PostMapping(value = "/orders")
+    public String placeOrder(@Valid Address address, Model model){
+        orderService.save(getCurrentCart(), (User)model.getAttribute("user"), address);
+        servletContext.removeAttribute("cart");
+        return "redirect:/buyer/";
+    }
+
+    @GetMapping(value = "/orders/history")
+    public String reviewOrders(Model model) {
+        User user = (User)model.getAttribute("user");
+        List<Order> orders = orderService.findOrderHistory(user.getUserId());
+        model.addAttribute("orders", orders);
+        return "buyer/order-history";
+    }
+
+    @GetMapping(value = "/orders/{orderId}/history")
+    public String reviewOrders(@PathVariable Integer orderId, Model model) {
+        Order order = orderService.findOrderById(orderId);
+        model.addAttribute("order", order);
+        return "buyer/order-history-view";
+    }
+
+    @PostMapping(value = "/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Integer orderId, Model model) {
+        orderService.cancelOrder(orderId);
+        return "redirect:/buyer/orders/history";
     }
 
     private Cart getCurrentCart() {

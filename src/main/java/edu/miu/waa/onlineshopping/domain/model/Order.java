@@ -19,6 +19,7 @@ public class Order {
     private Integer orderId;
     private LocalDate orderDate;
     private LocalDate shippedDate;
+    private LocalDate deliveredDate;
     private OrderStatus status;
     private User owner;
     private User seller;
@@ -26,11 +27,12 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
     private double total;
 
-    private Order(Integer orderId, LocalDate orderDate, LocalDate shippedDate, OrderStatus status,
+    private Order(Integer orderId, LocalDate orderDate, LocalDate shippedDate, LocalDate deliveredDate, OrderStatus status,
                   User owner, User seller, Address shipto, List<OrderItem> orderItems, double total) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.shippedDate = shippedDate;
+        this.deliveredDate = deliveredDate;
         this.status = status;
         this.owner = owner;
         this.seller = seller;
@@ -39,10 +41,10 @@ public class Order {
         this.total = total;
     }
 
-    public static Order of(Integer orderId, LocalDate orderDate, LocalDate shippedDate,
+    public static Order of(Integer orderId, LocalDate orderDate, LocalDate shippedDate, LocalDate deliveredDate,
                            OrderStatus status, User owner, User seller, Address shipto,
                            List<OrderItem> orderItems, double total) {
-        return new Order(orderId, orderDate, shippedDate,
+        return new Order(orderId, orderDate, shippedDate, deliveredDate,
                 status, owner, seller, shipto, orderItems, total);
     }
 }
