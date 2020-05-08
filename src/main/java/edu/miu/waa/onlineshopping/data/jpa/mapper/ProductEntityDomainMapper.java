@@ -9,12 +9,10 @@ import org.springframework.stereotype.Component;
 public class ProductEntityDomainMapper {
 
     private final UserEntityDomainMapper userEntityDomainMapper;
-    private final ProductCommentEntityDomainMapper productCommentEntityDomainMapper;
 
     @Autowired
-    public ProductEntityDomainMapper(UserEntityDomainMapper userEntityDomainMapper, ProductCommentEntityDomainMapper productCommentEntityDomainMapper) {
+    public ProductEntityDomainMapper(UserEntityDomainMapper userEntityDomainMapper) {
         this.userEntityDomainMapper = userEntityDomainMapper;
-        this.productCommentEntityDomainMapper = productCommentEntityDomainMapper;
     }
 
     public Product mapToDomain(SellerProductEntity productEntity) {
@@ -25,8 +23,7 @@ public class ProductEntityDomainMapper {
                         productEntity.getDescription(),
                         userEntityDomainMapper.mapToDomain(productEntity.getSupplier()),
                         productEntity.getPrice(),
-                        productEntity.getProducer(),
-                        productCommentEntityDomainMapper.mapToDomains(productEntity.getComments())
+                        productEntity.getProducer()
                 ) : null;
     }
 
@@ -39,7 +36,6 @@ public class ProductEntityDomainMapper {
         productEntity.setProductName(product.getProductName());
         productEntity.setProductId(product.getProductId());
         productEntity.setProducer(product.getProducer());
-        productEntity.setComments(productCommentEntityDomainMapper.mapToEntities(product.getComments()));
         return productEntity;
     }
 }

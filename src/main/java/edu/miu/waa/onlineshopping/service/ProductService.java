@@ -48,11 +48,4 @@ public class ProductService {
     public boolean delete(Integer productId) {
         return productDomainRepository.delete(productId);
     }
-
-    @Transactional
-    public Product addCommentToProduct(Integer productId, ProductComment comment) {
-        Product product = productDomainRepository.findProductByProductId(productId);
-        product.addCommentToCart(comment);
-        return productDomainRepository.save(product);
-    }
 }

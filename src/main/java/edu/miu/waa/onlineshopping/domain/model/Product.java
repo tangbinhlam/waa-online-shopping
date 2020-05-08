@@ -20,9 +20,8 @@ public class Product {
     private double price;
     private User supplier;
     private String producer;
-    private List<ProductComment> comments;
 
-    protected Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer, List<ProductComment> comments) {
+    protected Product(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
         this.productId = productId;
         this.productName = productName;
         this.imagePath = imagePath;
@@ -32,14 +31,7 @@ public class Product {
         this.producer = producer;
     }
 
-    public static Product of(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer, List<ProductComment> comments) {
-        return new Product(productId, productName, imagePath, description, supplier, price, producer, comments);
-    }
-
-    public void addCommentToCart(ProductComment comment) {
-        if(this.comments == null){
-            this.comments = new ArrayList<>();
-        }
-        this.comments.add(comment);
+    public static Product of(Integer productId, String productName, String imagePath, String description, User supplier, Double price, String producer) {
+        return new Product(productId, productName, imagePath, description, supplier, price, producer);
     }
 }

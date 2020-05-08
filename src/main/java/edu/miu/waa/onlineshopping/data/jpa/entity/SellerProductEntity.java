@@ -3,6 +3,7 @@ package edu.miu.waa.onlineshopping.data.jpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -36,8 +37,4 @@ public class SellerProductEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private UserEntity supplier;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<ProductCommentEntity> comments;
-
 }

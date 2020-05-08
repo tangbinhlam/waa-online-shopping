@@ -19,6 +19,7 @@ public class ProductComment {
     private User reviewUser;
     private LocalDate reviewDate;
     private CommentStatus commentStatus;
+    private Product product;
 
     private ProductComment(Integer commentId, String comment, Integer rating, User reviewUser, LocalDate reviewDate, CommentStatus commentStatus) {
         this.commentId = commentId;
@@ -31,5 +32,9 @@ public class ProductComment {
 
     public static ProductComment of(Integer commentId, String comment, Integer rating, User reviewUser, LocalDate reviewDate, CommentStatus commentStatus) {
         return new ProductComment(commentId, comment, rating, reviewUser, reviewDate, commentStatus);
+    }
+
+    public void setProduct(Product product){
+        this.product = product;
     }
 }

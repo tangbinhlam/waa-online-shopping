@@ -32,7 +32,7 @@ class ProductRepositoryAdapterTest {
         );
         User userSaved = userRepositoryAdapter.save(user);
         System.out.println(userSaved.toString());
-        Product product = Product.of(500, "Lenspen", "abc/len.jpg", "Will not scratch or damages lenses", userSaved, 500.5, "Nikon", null);
+        Product product = Product.of(500, "Lenspen", "abc/len.jpg", "Will not scratch or damages lenses", userSaved, 500.5, "Nikon");
 
         // Test save product
         Product productSaved = productRepositoryAdapter.save(product);
@@ -56,7 +56,7 @@ class ProductRepositoryAdapterTest {
 
         //Test Update
         Product productUpdated = productRepositoryAdapter.update(Product.of(productSaved.getProductId(), "Updated product",
-                "newPathImage", "Updated-Descrpiton", userSaved, 55.20, "Nikon new", null));
+                "newPathImage", "Updated-Descrpiton", userSaved, 55.20, "Nikon new"));
         System.out.println(productUpdated);
         assertThat(productUpdated).isNotNull();
         assertThat(productUpdated.getProductName()).isEqualTo("Updated product");

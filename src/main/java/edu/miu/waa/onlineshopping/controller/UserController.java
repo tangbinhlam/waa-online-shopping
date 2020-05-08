@@ -42,7 +42,6 @@ public class UserController {
         return modelAndView;
     }
 
-    // TODO Need to redirect app PRG (POST/REDIRECT/GET)
     @PostMapping(value = "/registration")
     public String createNewUser(@Valid User user, BindingResult bindingResult) {
         User userExists = userService.findUserByUserName(user.getUserName());
@@ -57,7 +56,6 @@ public class UserController {
             user.setActive(user.getRole() != Role.SELLER);
             userService.save(user);
             return "redirect:/";
-
         }
     }
 

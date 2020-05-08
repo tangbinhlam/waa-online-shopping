@@ -1,5 +1,6 @@
 package edu.miu.waa.onlineshopping.data.jpa.entity;
 
+import edu.miu.waa.onlineshopping.domain.model.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,4 +31,8 @@ public class ProductCommentEntity {
     private LocalDate reviewDate;
 
     private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
+    private SellerProductEntity product;
 }
