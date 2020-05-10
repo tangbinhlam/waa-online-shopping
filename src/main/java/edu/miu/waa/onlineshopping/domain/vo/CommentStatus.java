@@ -2,7 +2,8 @@ package edu.miu.waa.onlineshopping.domain.vo;
 
 public enum CommentStatus {
     ADDED("ADDED"),
-    REVIEWED("REVIEWED");
+    APPROVED("APPROVED"),
+    REJECT("REJECT");
 
     private String status;
     private CommentStatus(String status) {

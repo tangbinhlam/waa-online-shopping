@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ProductCommentService {
@@ -30,4 +31,19 @@ public class ProductCommentService {
         comment.setCommentStatus(CommentStatus.ADDED);
         return productCommentDomainRepository.save(comment);
     }
+
+    public List<ProductComment> getNewProductComments() {
+        return productCommentDomainRepository.getNewProductComments();
+    }
+
+    @Transactional
+    public ProductComment approve(Integer productCommentId) {
+        return productCommentDomainRepository.approve(productCommentId);
+    }
+
+    @Transactional
+    public ProductComment reject(Integer productCommentId) {
+        return productCommentDomainRepository.reject(productCommentId);
+    }
+
 }

@@ -172,5 +172,9 @@ public class DataLoader implements ApplicationRunner {
 
         System.out.println("Print Order of user: " + seller2.getName());
         System.out.println(orderService.findOrderBySeller(seller2.getUserId()));
+
+        // Print list comment not approve yet
+        System.out.println("Print list comment not approve yet");
+        System.out.println(productCommentService.getNewProductComments());
     }
 }

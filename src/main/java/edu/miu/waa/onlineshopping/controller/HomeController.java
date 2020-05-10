@@ -40,7 +40,7 @@ public class HomeController {
         }else if (user.getRole().equals(Role.ADMIN)){
             modelAndView.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
             modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-            modelAndView.setViewName("admin/home");
+            modelAndView.setViewName("redirect:/admin/");
         } else if (user.getRole().equals(Role.SELLER)) {
             modelAndView.setViewName("redirect:/seller/");
         } else if(user.getRole().equals(Role.BUYER)) {

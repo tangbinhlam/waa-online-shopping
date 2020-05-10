@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Review comments</title>
+</head>
+<body>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/admin/review-seller}">Review seller</a>
+        |<a th:href="@{/admin/review-comment}">Review review products</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Review new comments</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" th:if="${productComments.size()<=0}">
+        <h1>There is no new comment need to review.</h1>
+    </div>
+    <div class="row" th:if="${productComments.size() > 0}">
+        <div class="col-sm-16 col-md-14 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Review User</th>
+                    <th class="text-center">Comment</th>
+                    <th class="text-center">Rating</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="productComment, iStat : ${productComments}">
+                    <td class="col-sm-4 col-md-3">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img
+                                    th:src="@{'/files/' + ${productComment.product.imagePath}}"
+                                    th:title="${productComment.product.description}" style="width: 72px; height: 72px;">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#" th:text="${productComment.product.productName}">Product
+                                    name</a></h4>
+                                <h5 class="media-heading"> by <a href="#" th:text="${productComment.product.producer}">Brand
+                                    name</a></h5>
+                                <span>Seller </span><span class="text-success"><strong th:text="${productComment.product.supplier.name + ', ' + productComment.product.supplier.lastName}">In Stock</strong></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-sm-2 col-md-1" style="text-align: center">
+                        <label class="text-left" style="color: #0056b3"
+                               th:text="${productComment.getReviewUser().name + ', ' + productComment.getReviewUser().lastName}"></label>
+                    </td>
+                    <td class="col-sm-4 col-md-3 text-left" style="color: #0056b3" th:text="${productComment.comment}"></td>
+                    <td class="col-sm-4 col-md-2 text-center">
+                        <span th:each="i: ${#numbers.sequence(0, productComment.rating - 1)}">  <img
+                                th:src="@{/images/Star2.png}" style="width: 30px;"/></span>
+                        <span th:if="${productComment.rating<5}"
+                              th:each="i: ${#numbers.sequence(0, 4 - productComment.rating)}">  <img
+                                th:src="@{/images/Star1.png}" style="width: 30px;" alt="start"/></span>
+
+                    </td>
+                    <td class="col-sm-4 col-md-1">
+                        <form th:object="${productComment}" method="post"
+                              th:action="@{/admin/productComments/{productCommentId}/approve(productCommentId = ${productComment.getCommentId()})}">
+                            <button type="submit" class="btn btn-success">
+                                <span class="glyphicon glyphicon-check"></span> Approve
+                            </button>
+                        </form>
+                    </td>
+                    <td class="col-sm-4 col-md-1">
+                        <form th:object="${productComment}" method="post"
+                              th:action="@{/admin/productComments/{productCommentId}/reject(productCommentId = ${productComment.getCommentId()})}">
+                            <button type="submit" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-remove"></span> Reject
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

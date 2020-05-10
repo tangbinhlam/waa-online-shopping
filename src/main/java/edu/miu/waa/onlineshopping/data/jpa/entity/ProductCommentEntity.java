@@ -32,7 +32,7 @@ public class ProductCommentEntity {
 
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId")
     private SellerProductEntity product;
 }
