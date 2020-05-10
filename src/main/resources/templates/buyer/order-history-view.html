@@ -83,7 +83,7 @@
                         <strong>$14.61</strong></td>
                     <td th:if="${!order.status.toString().equals('DELIVERED')}"></td>
                     <td th:if="${order.status.toString().equals('DELIVERED')}" class="text-center">
-                        <form  th:action="@{/seller/products/{productId}/review(orderId = ${orderItem.getProduct().productId})}" method="Get">
+                        <form  th:action="@{/buyer/products/{productId}/review(productId = ${orderItem.getProduct().productId})}" method="Get">
                             <button type="submit" class="btn btn-success">
                                 Write review <span class="glyphicon glyphicon-play"></span>
                             </button>

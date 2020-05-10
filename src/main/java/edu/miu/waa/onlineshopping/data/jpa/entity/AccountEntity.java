@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ADDRESS_ID")
+    @Column(name = "ACCOUNT_ID")
     private Integer accountId;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)

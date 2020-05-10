@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!------ Include the above in your HEAD tag ---------->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <form class="form-horizontal" th:object="${productComment}" method="post"
+                  th:action="@{/buyer/products/{productId}/review(productId = ${productId})}">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>Write Review</legend>
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">Rating</label>
+                        <div class="col-md-4">
+                            <select th:field="*{rating}" class="form-control">
+                                <option th:value="${1}" th:text="${'1 START'}"></option>
+                                <option th:value="${2}" th:text="${'2 START'}"></option>
+                                <option th:value="${3}" th:text="${'3 START'}"></option>
+                                <option th:value="${4}" th:text="${'4 START'}"></option>
+                                <option th:value="${5}" th:text="${'5 START'}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">Comment</label>
+                        <div class="col-md-12">
+                            <textarea class="form-control" th:field="*{comment}"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                             <button class="btn btn-primary btn-sm" type="Submit">Add Review</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

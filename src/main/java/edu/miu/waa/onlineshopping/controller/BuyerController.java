@@ -2,6 +2,7 @@ package edu.miu.waa.onlineshopping.controller;
 
 import edu.miu.waa.onlineshopping.domain.model.*;
 import edu.miu.waa.onlineshopping.service.OrderService;
+import edu.miu.waa.onlineshopping.service.ProductCommentService;
 import edu.miu.waa.onlineshopping.service.ProductService;
 import edu.miu.waa.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +29,21 @@ public class BuyerController {
     private final UserService userService;
     private final ServletContext servletContext;
     private final OrderService orderService;
+    private final ProductCommentService productCommentService;
 
     @Autowired
-    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService) {
+    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService, ProductCommentService productCommentService) {
         this.productService = productService;
         this.userService = userService;
         this.servletContext = servletContext;
         this.orderService = orderService;
+        this.productCommentService = productCommentService;
     }
 
     @ModelAttribute("user")
-    public void getUser(Model model){
-        User user = (User)model.getAttribute("user");
-        if(user==null) {
+    public void getUser(Model model) {
+        User user = (User) model.getAttribute("user");
+        if (user == null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             model.addAttribute("user", userService.findUserByUserName(auth.getName()));
         }
@@ -48,8 +51,8 @@ public class BuyerController {
 
     @GetMapping(value = {""})
     public String home(Model model) {
-        List<Product> products = (List<Product>)model.getAttribute("products");
-        if(products == null) {
+        List<Product> products = (List<Product>) model.getAttribute("products");
+        if (products == null) {
             products = productService.findAll();
         }
         model.addAttribute("products", products);
@@ -98,7 +101,7 @@ public class BuyerController {
         List<CardItem> cardItems = cart.getCardItems();
         Map<String, List<CardItem>> maps = cardItems.stream().collect(groupingBy(cardItem -> cardItem.getProduct().getSupplier().getUserName()));
         double sum = cart.getCardItems().stream().map(cardItem -> cardItem.getQuantity() * cardItem.getProduct().getPrice()).reduce(0.0, Double::sum);
-        User user = (User)model.getAttribute("user");
+        User user = (User) model.getAttribute("user");
         servletContext.setAttribute("cart", cart);
         model.addAttribute("orders", maps.values());
         model.addAttribute("address", user.getAccount().getBillingAddress());
@@ -108,15 +111,15 @@ public class BuyerController {
     }
 
     @PostMapping(value = "/orders")
-    public String placeOrder(@Valid Address address, Model model){
-        orderService.save(getCurrentCart(), (User)model.getAttribute("user"), address);
+    public String placeOrder(@Valid Address address, Model model) {
+        orderService.save(getCurrentCart(), (User) model.getAttribute("user"), address);
         servletContext.removeAttribute("cart");
         return "redirect:/buyer/";
     }
 
     @GetMapping(value = "/orders/history")
     public String reviewOrders(Model model) {
-        User user = (User)model.getAttribute("user");
+        User user = (User) model.getAttribute("user");
         List<Order> orders = orderService.findOrderHistory(user.getUserId());
         model.addAttribute("orders", orders);
         return "buyer/order-history";
@@ -132,6 +135,20 @@ public class BuyerController {
     @PostMapping(value = "/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable Integer orderId, Model model) {
         orderService.cancelOrder(orderId);
+        return "redirect:/buyer/orders/history";
+    }
+
+    @GetMapping(value = "/products/{productId}/review")
+    public String reviewProduct(@PathVariable Integer productId, Model model) {
+        model.addAttribute("productComment", new ProductComment());
+        return "buyer/product-review";
+    }
+
+    @PostMapping(value = "/products/{productId}/review")
+    public String addReviewProduct(@PathVariable Integer productId, ProductComment productComment, Model model) {
+        User user = (User) model.getAttribute("user");
+        productComment.setReviewUser(user);
+        System.out.println(productCommentService.saveComment(productId, productComment));
         return "redirect:/buyer/orders/history";
     }
 
