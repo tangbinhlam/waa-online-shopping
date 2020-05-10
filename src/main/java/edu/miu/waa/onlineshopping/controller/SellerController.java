@@ -111,7 +111,7 @@ public class SellerController {
 
     @PostMapping("/products/{productId}/delete")
     public String deleteProduct(@PathVariable Integer productId) {
-        productService.delete(productId);
+            productService.delete(productId);
         return "redirect:/seller/";
     }
 

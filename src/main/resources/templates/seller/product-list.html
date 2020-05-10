@@ -4,7 +4,10 @@
 <head>
     <title>Manage product's Seller</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/product-list.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap_3.2.0.min.css}" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript"
+            src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/product.js}"></script>
 </head>
 <body>
 <body style="background: #E9EC96">
@@ -17,11 +20,11 @@
     </div>
 </div>
 <div>
-<div class="jumbotron" style="background: cornflowerblue;">
-    <div class="container">
-        <h1>Product List</h1>
+    <div class="jumbotron" style="background: cornflowerblue;">
+        <div class="container">
+            <h1>Product List</h1>
+        </div>
     </div>
-</div>
 </div>
 <div class="container">
     <div class="row">
@@ -56,11 +59,11 @@
                                     <button type="submit" class="btn btn-primary btn-product">Update</button>
                                 </form>
                             </div>
+
                             <div class="col-md-6">
-                                <form th:object="${product}" method="post"
-                                      th:action="@{/seller/products/{productId}/delete(productId = ${product.getProductId()})}">
-                                    <button type="submit" class="btn btn-danger btn-product">Delete</button>
-                                </form>
+                                <a href="#" class="btn btn-danger product-remove-btn"
+                                   th:data="${product.getProductId()}">
+                                    <span class="glyphicon glyphicon-remove"/></span> Remove</a>
                             </div>
                         </div>
                         <p></p>
