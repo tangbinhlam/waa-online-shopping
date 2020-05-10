@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap_3.2.0.min.css}" id="bootstrap-css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/buyer-home.css}"/>
 </head>
-<body>
+<body style="padding-top: 0;">
 <div>
     <div class="pull-right" style="padding-right:50px">
         <a th:href="@{/}">Home</a>
@@ -59,8 +59,11 @@
                         </p>
                         <div class="row">
                             <div class="col-md-6">
-                                <p>Seller: <span style="color: #005cbf"
-                                                 th:text="${product.supplier.name + ' ' + product.supplier.lastName}"></span>
+                                <p>Seller:
+                                    <a style="font-size: 17px;"
+                                        th:href="@{/buyer/users/{userName}/profile(userName= ${product.getSupplier().getUserName()})}"
+                                        th:text="${product.supplier.name + ' ' + product.supplier.lastName}"
+                                    >User name</a>
                                 </p>
                             </div>
                         </div>

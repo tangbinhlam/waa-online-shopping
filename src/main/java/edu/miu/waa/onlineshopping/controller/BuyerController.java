@@ -152,6 +152,13 @@ public class BuyerController {
         return "redirect:/buyer/orders/history";
     }
 
+    @GetMapping(value = "/users/{userName}/profile")
+    public String showUserProfile(@PathVariable String userName, Model model) {
+        User user = userService.findUserByUserName(userName);
+        model.addAttribute("userProfile", user);
+        return "buyer/seller-profile";
+    }
+
     private Cart getCurrentCart() {
         Cart cart = (Cart) servletContext.getAttribute("cart");
         if (cart == null) {
