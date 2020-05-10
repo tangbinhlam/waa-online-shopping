@@ -2,23 +2,30 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Warning not active user</title>
+    <title>Add new product</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/product-edit.css}"/>
     <!------ Include the above in your HEAD tag ---------->
 <body>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
-                type="Submit">Logout
-        </button>
-    </form>
-</nav>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/seller/products}">Add Product</a>
+        |<a th:href="@{/seller/orders}">Review Orders</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Add Product</h1>
+        </div>
+    </div>
+</div>
 <div class="container product">
     <div class="row">
         <div class="col-md-3">
             <div class="product-info">
-                <img src="https://image.ibb.co/kUASdV/product-image.png" alt="image"/>
                 <h2>Add New Product</h2>
                 <h4>Add new product for selling in Online Shopping</h4>
             </div>

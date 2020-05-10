@@ -7,9 +7,24 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/order-review.css}"/>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Managed order</title>
 </head>
 <body>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/seller/products}">Add Product</a>
+        |<a th:href="@{/seller/orders}">Review Orders</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Managed Orders</h1>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-10 col-md-offset-1">

@@ -7,24 +7,22 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap_3.2.0.min.css}" id="bootstrap-css">
 </head>
 <body>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <form th:action="@{/logout}" method="get">
-        <button class="btn btn-md btn-danger btn-block" name="registration"
-                type="Submit">Logout
-        </button>
-    </form>
-</nav>
-<div class="container">
-    <div class="row">
-        <h1 class="col-md-16"> Manage List Product</h1>
-        <div class="col-md-6">
-            <form method="get" th:action="@{/seller/products}">
-                <button type="submit" class="btn-add btn-primary btn">Add new product</button>
-            </form>
-        </div>
-
-        <br>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/seller/products}">Add Product</a>
+        |<a th:href="@{/seller/orders}">Review Orders</a>
+        |<a th:href="@{/logout}">Logout</a>
     </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Manage List Product</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
     <div class="row">
         <div class="col-md-16">
             <div class="col-sm-6 col-md-4" th:each="product, iStat : ${products}">
