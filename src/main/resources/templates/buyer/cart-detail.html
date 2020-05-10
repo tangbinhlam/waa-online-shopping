@@ -6,15 +6,27 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shopping cart</title>
 </head>
 <body>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
+        |<a th:href="@{/buyer/orders/history}">Order History</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row" th:if="${cardItems.size()<=0}">
         <h1>Your Shopping Cart is empty.</h1>
-    </div>
-    <div class="row" th:if="${cardItems.size() > 0}">
-        <h1 style="color:#0056b3">Shopping Cart</h1>
     </div>
     <div class="row" th:if="${cardItems.size() > 0}">
         <div class="col-sm-12 col-md-10 col-md-offset-1">
