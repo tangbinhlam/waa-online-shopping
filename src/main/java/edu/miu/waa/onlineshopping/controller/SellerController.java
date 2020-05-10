@@ -3,7 +3,7 @@ package edu.miu.waa.onlineshopping.controller;
 import edu.miu.waa.onlineshopping.domain.model.Order;
 import edu.miu.waa.onlineshopping.domain.model.Product;
 import edu.miu.waa.onlineshopping.domain.model.User;
-import edu.miu.waa.onlineshopping.domain.vo.CreateProductCommand;
+import edu.miu.waa.onlineshopping.domain.vo.ProductCommand;
 import edu.miu.waa.onlineshopping.service.OrderService;
 import edu.miu.waa.onlineshopping.service.ProductService;
 import edu.miu.waa.onlineshopping.service.UserService;
@@ -18,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -56,33 +55,55 @@ public class SellerController {
         return "seller/product-list";
     }
 
-    @GetMapping(value = "/products")
+    @GetMapping(value = "/products/add")
     public String newEntryProduct(Model model) {
-        model.addAttribute("product", new CreateProductCommand());
-        return "seller/product-edit";
+        model.addAttribute("product", new ProductCommand());
+        return "seller/product-add";
     }
 
     @GetMapping(value = "/products/{productId}/update")
-    public String updateProduct(@PathVariable Integer productId, Model model) {
-        //TODO: check exception
+    public String viewUpdateProduct(@PathVariable Integer productId, Model model) {
         Product product = productService.findProductByProductId(productId);
-        Resource resource = storageService.loadAsResource(product.getImagePath());
-
+        ProductCommand updateProductCommand = ProductCommand.buillder(product);
+        model.addAttribute("product", updateProductCommand);
         return "seller/product-edit";
     }
 
-    @PostMapping(value = "/products")
-    public String addNewProduct(@Valid CreateProductCommand createProductCommand, BindingResult bindingResult, Model model) {
-        String pathFileName = storageService.store(createProductCommand.getImagePath());
+    @PostMapping(value = "/products/{productId}/update")
+    public String updateProduct(@PathVariable Integer productId, @Valid ProductCommand updateProductCommand, BindingResult bindingResult, Model model) {
+        String pathFileName = updateProductCommand.getImageName();
+        if(updateProductCommand.getImagePath().getOriginalFilename().length()>0) {
+            pathFileName = storageService.store(updateProductCommand.getImagePath());
+        }
         if (bindingResult.hasErrors()) {
             return "seller/product-edit";
         } else {
-            Product newProuct = Product.of(1,
-                    createProductCommand.getProductName(),
-                    pathFileName, createProductCommand.getDescription(),
+            Product updatedProduct = Product.of(updateProductCommand.getProductId(),
+                    updateProductCommand.getProductName(),
+                    pathFileName, updateProductCommand.getDescription(),
                     (User) model.getAttribute("user"),
-                    createProductCommand.getPrice(),
-                    createProductCommand.getProducer());
+                    updateProductCommand.getPrice(),
+                    updateProductCommand.getProducer());
+            productService.update(updatedProduct);
+        }
+        return "redirect:/seller/";
+    }
+
+    @PostMapping(value = "/products/add")
+    public String addNewProduct(@Valid ProductCommand newProductCommand, BindingResult bindingResult, Model model) {
+        String pathFileName = null;
+        if(newProductCommand.getImagePath().getOriginalFilename().length()>0) {
+            pathFileName = storageService.store(newProductCommand.getImagePath());
+        }
+        if (bindingResult.hasErrors()) {
+            return "seller/product-add";
+        } else {
+            Product newProuct = Product.of(1,
+                    newProductCommand.getProductName(),
+                    pathFileName, newProductCommand.getDescription(),
+                    (User) model.getAttribute("user"),
+                    newProductCommand.getPrice(),
+                    newProductCommand.getProducer());
             productService.save(newProuct);
         }
         return "redirect:/seller/";

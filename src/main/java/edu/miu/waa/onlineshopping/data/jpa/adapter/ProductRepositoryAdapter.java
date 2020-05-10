@@ -35,6 +35,7 @@ public class ProductRepositoryAdapter implements ProductDomainRepository {
         productEntity.setPrice(product.getPrice());
         productEntity.setImagePath(product.getImagePath());
         productEntity.setDescription(product.getDescription());
+        productEntity.setProducer(product.getProducer());
         return productEntityDomainMapper.mapToDomain(productRepository.save(productEntity));
     }
 

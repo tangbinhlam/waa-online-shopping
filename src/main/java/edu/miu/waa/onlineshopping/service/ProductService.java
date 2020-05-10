@@ -34,6 +34,11 @@ public class ProductService {
         return productDomainRepository.save(product);
     }
 
+    @Transactional
+    public Product update(Product product){
+        return productDomainRepository.save(product);
+    }
+
     @Transactional(readOnly = true)
     public List<Product> findAll() {
         return productDomainRepository.findAll();
