@@ -35,8 +35,9 @@ public class FollowerUserRepositoryAdapter implements FollowerUserDomainReposito
     }
 
     @Override
-    public boolean unFollow(FollowerUser followerUser) {
-        followerUserRepository.deleteById(followerUser.getId());
+    public boolean unFollow(Integer followerId, Integer followedId) {
+        FollowerUserEntity followerUserEntity = followerUserRepository.findByFollowUserUserIdAndFollowedUserUserId(followerId, followedId);
+        followerUserRepository.deleteById(followerUserEntity.getId());
         return true;
     }
 

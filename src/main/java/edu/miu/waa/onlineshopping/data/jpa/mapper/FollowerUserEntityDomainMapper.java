@@ -18,7 +18,7 @@ public class FollowerUserEntityDomainMapper {
     public FollowerUser mapToDomain(FollowerUserEntity followerUserEntity) {
         return (followerUserEntity != null) ?
                 FollowerUser.of(followerUserEntity.getId(),
-                        userEntityDomainMapper.mapToDomain(followerUserEntity.getFollowedUser()),
+                        userEntityDomainMapper.mapToDomain(followerUserEntity.getFollowUser()),
                         userEntityDomainMapper.mapToDomain(followerUserEntity.getFollowedUser())
                 ) : null;
     }

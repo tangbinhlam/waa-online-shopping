@@ -1,10 +1,7 @@
 package edu.miu.waa.onlineshopping.controller;
 
 import edu.miu.waa.onlineshopping.domain.model.*;
-import edu.miu.waa.onlineshopping.service.OrderService;
-import edu.miu.waa.onlineshopping.service.ProductCommentService;
-import edu.miu.waa.onlineshopping.service.ProductService;
-import edu.miu.waa.onlineshopping.service.UserService;
+import edu.miu.waa.onlineshopping.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,14 +27,16 @@ public class BuyerController {
     private final ServletContext servletContext;
     private final OrderService orderService;
     private final ProductCommentService productCommentService;
+    private final FollowerUserService followerUserService;
 
     @Autowired
-    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService, ProductCommentService productCommentService) {
+    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService, ProductCommentService productCommentService, FollowerUserService followerUserService) {
         this.productService = productService;
         this.userService = userService;
         this.servletContext = servletContext;
         this.orderService = orderService;
         this.productCommentService = productCommentService;
+        this.followerUserService = followerUserService;
     }
 
     @ModelAttribute("user")
@@ -67,7 +66,6 @@ public class BuyerController {
         System.out.println(cart);
         return "redirect:/buyer/";
     }
-
 
     @PostMapping(value = "/carts/{productId}/remove")
     public String home(@PathVariable Integer productId, Model model) {
@@ -154,9 +152,30 @@ public class BuyerController {
 
     @GetMapping(value = "/users/{userName}/profile")
     public String showUserProfile(@PathVariable String userName, Model model) {
+        User currentUser = (User) model.getAttribute("user");
         User user = userService.findUserByUserName(userName);
+        List<FollowerUser> followedUsers = followerUserService.findFollowersByUser(user.getUserId());
+        boolean isFollowed = followedUsers.stream().anyMatch(followerUser -> followerUser.getFollowUser().getUserId().equals(currentUser.getUserId()));
         model.addAttribute("userProfile", user);
+        model.addAttribute("numberFollowers", followedUsers.size());
+        model.addAttribute("isFollowed", isFollowed);
         return "buyer/seller-profile";
+    }
+
+    @PostMapping(value = "/users/{userName}/follow")
+    public String followUser(@PathVariable String userName, Model model) {
+        User currentUser = (User) model.getAttribute("user");
+        User sellerUser = userService.findUserByUserName(userName);
+        followerUserService.follow(currentUser.getUserId(), sellerUser.getUserId());
+        return "redirect:/buyer/users/"+ userName +"/profile";
+    }
+
+    @PostMapping(value = "/users/{userName}/unFollow")
+    public String unFollowUser(@PathVariable String userName, Model model) {
+        User currentUser = (User) model.getAttribute("user");
+        User sellerUser = userService.findUserByUserName(userName);
+        followerUserService.unFollow(currentUser.getUserId(), sellerUser.getUserId());
+        return "redirect:/buyer/users/"+ userName +"/profile";
     }
 
     private Cart getCurrentCart() {

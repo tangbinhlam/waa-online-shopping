@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class FollowerUserService {
@@ -20,4 +22,16 @@ public class FollowerUserService {
     public FollowerUser follow(Integer followerId, Integer followedId){
         return followerUserDomainRepository.follow(followerId, followedId);
     }
-}
+
+    public void unFollow(Integer followerId, Integer followedId){
+        followerUserDomainRepository.unFollow(followerId, followedId);
+    }
+
+    public List<FollowerUser> findFollowersByUser(Integer followedId) {
+        return followerUserDomainRepository.getListFollowed(followedId);
+    }
+
+    public List<FollowerUser> findFollowedByUser(Integer followId) {
+        return followerUserDomainRepository.getListFollow(followId);
+    }
+ }
