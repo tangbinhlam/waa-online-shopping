@@ -15,6 +15,7 @@
         <a th:href="@{/}">Home</a>
         |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
         |<a th:href="@{/buyer/orders/history}">Order History</a>
+        |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
         |<a th:href="@{/logout}">Logout</a>
     </div>
 </div>
@@ -38,7 +39,8 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Order status </label>
                 <div class="col-sm-10">
-                    <label th:style="${order.getStatus().toString().equals('CANCEL')|| order.getStatus().toString().equals('REJECT')? 'color: red' : 'color: green'}" th:text="${#messages.msgOrNull('orderStatus.' + order.getStatus().toString())}"></label>
+                    <label th:style="${order.getStatus().toString().equals('CANCEL')|| order.getStatus().toString().equals('REJECT')? 'color: red' : 'color: green'}"
+                           th:text="${#messages.msgOrNull('orderStatus.' + order.getStatus().toString())}"></label>
                 </div>
             </div>
             <div class="form-group">
@@ -82,7 +84,8 @@
                                     name</a></h4>
                                 <h5 class="media-heading"> by <a href="#" th:text="${orderItem.product.producer}">Brand
                                     name</a></h5>
-                                <span>Seller: </span><span class="text-success"><strong th:text="${orderItem.product.supplier.name + ', ' + orderItem.product.supplier.lastName}">In Stock</strong></span>
+                                <span>Seller: </span><span class="text-success"><strong
+                                    th:text="${orderItem.product.supplier.name + ', ' + orderItem.product.supplier.lastName}">In Stock</strong></span>
                             </div>
                         </div>
                     </td>
@@ -98,7 +101,8 @@
                         <strong>$14.61</strong></td>
                     <td th:if="${!order.status.toString().equals('DELIVERED')}"></td>
                     <td th:if="${order.status.toString().equals('DELIVERED')}" class="text-center">
-                        <form  th:action="@{/buyer/products/{productId}/review(productId = ${orderItem.getProduct().productId})}" method="Get">
+                        <form th:action="@{/buyer/products/{productId}/review(productId = ${orderItem.getProduct().productId})}"
+                              method="Get">
                             <button type="submit" class="btn btn-success">
                                 Write review <span class="glyphicon glyphicon-play"></span>
                             </button>
@@ -111,7 +115,8 @@
                     <td></td>
                     <td></td>
                     <td><h3>Total</h3></td>
-                    <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
+                    <td class="text-right"><h3
+                            th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
                         <strong>$31.53</strong></h3></td>
                 </tr>
                 <tr>
@@ -120,8 +125,14 @@
                     <td>  </td>
                     <td>  </td>
                     <td>  </td>
-                    <td class="text-left">
-                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}" th:action="@{/buyer/orders/{orderId}/cancel(orderId = ${order.getOrderId()})}" method="POST">
+                    <td class="pull-right">
+                        <a th:if="${order.status.toString().equals('SHIPPED') || order.status.toString().equals('DELIVERED')}"
+                           th:href="@{/buyer/orders/{orderId}/receipt(orderId = ${order.getOrderId()})}"
+                           class="btn btn-primary order-print-btn">
+                            <span class="glyphicon glyphicon-print"/></span> Review Receipt</a>
+                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}"
+                              th:action="@{/buyer/orders/{orderId}/cancel(orderId = ${order.getOrderId()})}"
+                              method="POST">
                             <button type="submit" class="btn btn-primary btn-danger">
                                 <span class="glyphicon glyphicon-play"></span> Cancel order
                             </button>

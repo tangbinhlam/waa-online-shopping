@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/order-review.css}"/>
+    <meta charset="UTF-8">
+    <title>Followed Users</title>
+</head>
+<body>
+<div>
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
+        |<a th:href="@{/buyer/orders/history}">Order History</a>
+        |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Followed Users</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="col-sm-4 col-md-2">Seller</th>
+                    <th class="col-sm-1 col-md-2">About us</th>
+                    <th class="col-sm-1 col-md-2">Email</th>
+                    <th class="col-sm-1 col-md-2">Phone</th>
+                    <th class="col-sm-1 col-md-2">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="followedUser, iStat : ${followedUsers}" th:style="${iStat.odd?'background:#eff8ff':'background:white'}">
+                    <td class="col-sm-4 col-md-2"
+                        th:text="${followedUser.getFollowedUser().name + ', ' + followedUser.getFollowedUser().lastName}">
+                    </td>
+                    <td class="col-sm-1 col-md-2 text-left">
+                        <strong th:text="${followedUser.getFollowedUser().aboutUs}">$4.87</strong>
+                    </td>
+                    <td class="col-sm-1 col-md-2" style="text-align: left" th:text="${followedUser.getFollowedUser().email}">
+                    </td>
+                    <td class="col-sm-1 col-md-2" style="text-align: left" th:text="${followedUser.getFollowedUser().phone}">
+                    </td>
+                    <td class="col-sm-1 col-md-2 text-left">
+                        <form th:action="@{/buyer/users/followed-users/{userName}/unFollow(userName = ${followedUser.getFollowedUser().userName})}" method="POST">
+                            <button type="submit" class="btn btn-warning btn-block"><span class="fa fa-minus-circle"></span> Un-Follow </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

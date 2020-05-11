@@ -162,6 +162,22 @@ public class BuyerController {
         return "buyer/seller-profile";
     }
 
+    @GetMapping(value = "/users/followed-users")
+    public String listFolloweredUser(Model model) {
+        User currentUser = (User) model.getAttribute("user");
+        List<FollowerUser> followedUsers = followerUserService.findFollowedByUser(currentUser.getUserId());
+        model.addAttribute("followedUsers", followedUsers);
+        return "buyer/follower-users";
+    }
+
+    @PostMapping(value = "/users/followed-users/{userName}/unFollow")
+    public String unFollowUserInList(@PathVariable String userName, Model model) {
+        User currentUser = (User) model.getAttribute("user");
+        User sellerUser = userService.findUserByUserName(userName);
+        followerUserService.unFollow(currentUser.getUserId(), sellerUser.getUserId());
+        return "redirect:/buyer/users/followed-users";
+    }
+
     @PostMapping(value = "/users/{userName}/follow")
     public String followUser(@PathVariable String userName, Model model) {
         User currentUser = (User) model.getAttribute("user");
@@ -184,5 +200,12 @@ public class BuyerController {
             cart = new Cart();
         }
         return cart;
+    }
+
+    @GetMapping(value = "/orders/{orderId}/receipt")
+    public String printReceiptOrders(@PathVariable Integer orderId, Model model) {
+        Order order = orderService.findOrderById(orderId);
+        model.addAttribute("order", order);
+        return "buyer/receipt-review";
     }
 }

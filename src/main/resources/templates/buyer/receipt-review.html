@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/order-review.css}"/>
+    <script type="text/javascript"
+            src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/print-receipt.js}"></script>
+    <meta charset="UTF-8">
+    <title>Print Receipt</title>
+</head>
+<body>
+<div class="tool-bar">
+    <div class="pull-right" style="padding-right:50px">
+        <a th:href="@{/}">Home</a>
+        |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
+        |<a th:href="@{/buyer/orders/history}">Order History</a>
+        |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
+        |<a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+<div class="header-text">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Receipt</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <h1 th:text="${'Receipt'}"></h1>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Order Id</label>
+                <div class="col-sm-10">
+                    <label th:text="${'P' + #numbers.formatInteger(order.getOrderId(),10)}"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Created date:</label>
+                <div class="col-sm-10">
+                    <label th:text="${order.getOrderDate()}"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Seller: </label>
+                <div class="col-sm-10">
+                    <label th:text="${ order.seller.name + ', ' + order.seller.lastName }"></label>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem : ${order.getOrderItems()}">
+                    <td class="col-sm-8 col-md-6">
+                        <h4 class="media-heading" th:text="${orderItem.product.productName}"></h4>
+                    </td>
+                    <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <h4 class="text-center" readonly th:text="${orderItem.quantity}"></h4>
+                    </td>
+                    <td class="col-sm-1 col-md-1 text-center"
+                        th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$4.87</strong>
+                    </td>
+                    <td class="col-sm-1 col-md-1 text-center"
+                        th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice() * orderItem.quantity, 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$14.61</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><h3>Total</h3></td>
+                    <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$31.53</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td class="text-left">
+                        <a href="#" class="btn btn-primary order-print-btn">
+                            <span class="glyphicon glyphicon-print"/></span> Print Receipt</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
