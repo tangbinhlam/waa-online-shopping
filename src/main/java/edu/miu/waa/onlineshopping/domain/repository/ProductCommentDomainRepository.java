@@ -9,4 +9,5 @@ public interface ProductCommentDomainRepository {
     List<ProductComment> getNewProductComments();
     ProductComment approve(Integer productCommentId);
     ProductComment reject(Integer productCommentId);
+    List<ProductComment> getApprovedProductComments(Integer productId);
 }

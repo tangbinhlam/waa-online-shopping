@@ -151,6 +151,13 @@ public class DataLoader implements ApplicationRunner {
         Address address = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
         orderService.save(cart, buyer, address);
 
+        Account account5 = Account.of(null, 500000.00,
+                Address.of(null, "2020 S Main St", "2K", "IA", "Fairfield", "52556", "USA"),
+                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+        User buyer1 = userService.save(User.of(null, "Buyer1", "Buyer1", "Phuc", "Tang", true, "phuctang@yahoo.com", "0978548623",
+                Role.BUYER, "", account5));
+        System.out.println(buyer1);
+
         System.out.println("Print Order with status PLACE_ORDER");
         System.out.println("Print Order of user: " + seller1.getName());
         List<Order> orders1 = orderService.findOrderBySeller(seller1.getUserId());
@@ -161,13 +168,17 @@ public class DataLoader implements ApplicationRunner {
         orderService.changeToDeliveredOrder(orders1.get(0).getOrderId());
         // Write comment for product 1
         ProductComment productComment = ProductComment.of(null, "This is good product", 5, buyer, LocalDate.now(), CommentStatus.ADDED);
-        ProductComment productComment1 = ProductComment.of(null, "This is good not good product I used but it bad", 1, buyer, LocalDate.now(), CommentStatus.ADDED);
+        ProductComment productComment1 = ProductComment.of(null, "Right out of the box and with very little reading of the manual I was able to get going with this very capable device on my complicated Canon 6D Mark II. I have a lot to learn about off-camera flash photography, but I already know enough to recommend that this flash is well served by using it conjunction with a soft-box.", 5, buyer, LocalDate.now(), CommentStatus.ADDED);
+        ProductComment productComment2 = ProductComment.of(null, "I own multiple units of this and the original 600EX. This thing SLAYS the original 600 in terms of recycle time. When I rely on these for my wedding work it can absolutely make the difference between getting the shot and failure. The GUI on the rear display is greatly improved over the original 600 as well, much more intuitive, bravo. Radio triggering is sublime when it works, which is sadly only most of the time.", 5, buyer1, LocalDate.now(), CommentStatus.ADDED);
+        ProductComment productComment3 = ProductComment.of(null, "I have purchased three of these flashes from certified sellers and all three have had malfunctions. I shoot weddings and have never had issues with the Yongs or old 600EXs. These new 600s will either not turn on, not fire or will simply be broken beyond repair should as much as sneeze next to them. Horrible product.", 2, buyer1, LocalDate.now(), CommentStatus.ADDED);
 
 
         // Print comment
         System.out.println("Print comment");
         System.out.println(productCommentService.saveComment(16, productComment));
         System.out.println(productCommentService.saveComment(18, productComment1));
+        System.out.println(productCommentService.saveComment(18, productComment2));
+        System.out.println(productCommentService.saveComment(18, productComment3));
 
 
         System.out.println("Print Order of user: " + seller2.getName());

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProductCommentRepository extends CrudRepository<ProductCommentEntity, Integer> {
     List<ProductCommentEntity> findProductCommentEntitiesByStatusEquals(String status);
+    List<ProductCommentEntity> findProductCommentEntitiesByStatusEqualsAndProductProductId(String status, Integer product_productId);
 }

@@ -46,4 +46,9 @@ public class ProductCommentRepositoryAdapter implements ProductCommentDomainRepo
         productCommentEntity.setStatus(CommentStatus.REJECT.toString());
         return productCommentEntityDomainMapper.mapToDomain(productCommentRepository.save(productCommentEntity));
     }
+
+    @Override
+    public List<ProductComment> getApprovedProductComments(Integer productId) {
+        return  productCommentEntityDomainMapper.mapToDomains(productCommentRepository.findProductCommentEntitiesByStatusEqualsAndProductProductId(CommentStatus.APPROVED.toString(), productId));
+    }
 }

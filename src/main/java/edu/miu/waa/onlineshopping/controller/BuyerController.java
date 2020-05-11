@@ -146,8 +146,24 @@ public class BuyerController {
     public String addReviewProduct(@PathVariable Integer productId, ProductComment productComment, Model model) {
         User user = (User) model.getAttribute("user");
         productComment.setReviewUser(user);
-        System.out.println(productCommentService.saveComment(productId, productComment));
+        productCommentService.saveComment(productId, productComment);
         return "redirect:/buyer/orders/history";
+    }
+
+    @GetMapping(value = "/products/{productId}")
+    public String productDetail(@PathVariable Integer productId, Model model) {
+        Product product = productService.findProductByProductId(productId);
+        List<ProductComment> productComments = productCommentService.getApprovedProductComments(productId);
+        Integer generalRating = 0;
+        if(productComments.size()>0) {
+            generalRating = (int) Math.round(productComments.stream()
+                    .mapToInt(ProductComment::getRating)
+                    .average().getAsDouble());
+        }
+        model.addAttribute("generalRating", generalRating);
+        model.addAttribute("product", product);
+        model.addAttribute("productComments", productComments);
+        return "buyer/product-details";
     }
 
     @GetMapping(value = "/users/{userName}/profile")
@@ -183,7 +199,7 @@ public class BuyerController {
         User currentUser = (User) model.getAttribute("user");
         User sellerUser = userService.findUserByUserName(userName);
         followerUserService.follow(currentUser.getUserId(), sellerUser.getUserId());
-        return "redirect:/buyer/users/"+ userName +"/profile";
+        return "redirect:/buyer/users/" + userName + "/profile";
     }
 
     @PostMapping(value = "/users/{userName}/unFollow")
@@ -191,7 +207,7 @@ public class BuyerController {
         User currentUser = (User) model.getAttribute("user");
         User sellerUser = userService.findUserByUserName(userName);
         followerUserService.unFollow(currentUser.getUserId(), sellerUser.getUserId());
-        return "redirect:/buyer/users/"+ userName +"/profile";
+        return "redirect:/buyer/users/" + userName + "/profile";
     }
 
     private Cart getCurrentCart() {

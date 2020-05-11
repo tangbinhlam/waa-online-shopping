@@ -36,6 +36,10 @@ public class ProductCommentService {
         return productCommentDomainRepository.getNewProductComments();
     }
 
+    public List<ProductComment> getApprovedProductComments(Integer productId) {
+        return productCommentDomainRepository.getApprovedProductComments(productId);
+    }
+
     @Transactional
     public ProductComment approve(Integer productCommentId) {
         return productCommentDomainRepository.approve(productCommentId);

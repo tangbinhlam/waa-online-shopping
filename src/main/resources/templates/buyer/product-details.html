@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/product-details.css}"/>
+    <script type="text/javascript" th:src="@{/js/product-details.js}"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+</head>
+<body>
+<div class="pd-wrap">
+    <div class="container">
+        <div class="heading-section" >
+            <h2>Product Details</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <img id="thumb" class="product-thumb" th:src="@{'/files/' + ${product.imagePath}}" th:title="${product.description}">
+            </div>
+            <div class="col-md-6">
+                <div class="product-dtl">
+                    <div class="product-info">
+                        <div class="product-name" th:text="${product.productName}">Variable Product</div>
+                        <div class="reviews-counter">
+                            <div class="rate">
+                                <span th:if="${generalRating > 0}" th:each="i: ${#numbers.sequence(0, generalRating - 1)}">  <img
+                                        th:src="@{/images/Star2.png}" style="width: 20px;"/></span>
+                                <span th:if="${generalRating<5}"
+                                      th:each="i: ${#numbers.sequence(0, 4 - generalRating)}">  <img
+                                        th:src="@{/images/Star1.png}" style="width: 20px;" alt="start"/></span>
+                            </div>
+                            <span><span th:text="${productComments.size()}"></span> Reviews</span>
+                        </div>
+                        <div class="product-price-discount"><span th:text="${'$' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}">$39.00</span></div>
+                        <div style="color: #005cbf" th:text="${product.producer}"></div>
+                    </div>
+                    <p th:text="${product.description}">Description</p>
+                    <div class="product-count">
+                        <label>Quantity</label>
+                        <form action="#" class="display-flex">
+                            <div class="qtyminus">-</div>
+                            <input type="text" name="quantity" value="1" class="qty">
+                            <div class="qtyplus">+</div>
+                        </form>
+                        <a href="#" class="round-black-btn">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-info-tabs">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews (<span th:text="${productComments.size()}"></span>)</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab" th:text="${product.description}">
+                    Description
+                </div>
+                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                    <div class="review-heading">REVIEWS</div>
+                    <p class="mb-20" th:if="${productComments.size()==0}">There are no reviews yet.</p>
+                    <div class="card">
+                        <div class="card-body"  th:each="productComment, iStat : ${productComments}">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                    <p class="text-secondary text-center"></p>
+                                </div>
+                                <div class="col-md-10">
+                                    <p>
+                                        <a class="float-left" href="https://maniruzzaman-akash.blogspot.com/p/contact.html">
+                                            <strong th:text="${productComment.getReviewUser().name + ', ' + productComment.getReviewUser().lastName}">Maniruzzaman Akash</strong></a>
+                                        <span class="float-right" th:if="${productComment.rating<5}"
+                                              th:each="i: ${#numbers.sequence(0, 4 - productComment.rating)}">  <img
+                                                th:src="@{/images/Star1.png}" style="width: 30px;" alt="start"/></span>
+                                        <span class="float-right" th:each="i: ${#numbers.sequence(0, productComment.rating - 1)}">  <img
+                                                th:src="@{/images/Star2.png}" style="width: 30px;"/></span>
+                                    </p>
+                                    <div class="clearfix"></div>
+                                    <p th:text="${'Reviewed date: '+ productComment.getReviewDate()}"></p>
+                                    <p th:text="${productComment.comment}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
