@@ -61,7 +61,7 @@ public class BuyerController {
     @PostMapping(value = "/carts/{productId}/add")
     public String home(@PathVariable Integer productId, Product product, Model model) {
         Cart cart = getCurrentCart();
-        cart.addItemToCart(productId);
+        cart.addItemToCart(productId, 1);
         servletContext.setAttribute("cart", cart);
         System.out.println(cart);
         return "redirect:/buyer/";

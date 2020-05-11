@@ -138,12 +138,12 @@ public class DataLoader implements ApplicationRunner {
 
 
         Cart cart = new Cart();
-        cart.addItemToCart(16);
-        cart.addItemToCart(18);
-        cart.addItemToCart(19);
-        cart.addItemToCart(26);
-        cart.addItemToCart(27); cart.addItemToCart(27);
-        cart.addItemToCart(28);
+        cart.addItemToCart(16, 1);
+        cart.addItemToCart(18, 2);
+        cart.addItemToCart(19, 1);
+        cart.addItemToCart(26, 1);
+        cart.addItemToCart(27, 2);
+        cart.addItemToCart(28, 1);
 
         List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->

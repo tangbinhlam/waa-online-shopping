@@ -22,16 +22,16 @@ public class Cart {
         this.cardItems = cardItems;
     }
 
-    public void addItemToCart(Integer productId) {
+    public void addItemToCart(Integer productId, Integer quantity) {
         if (cardItems.stream().anyMatch(cardItem -> cardItem.getProductId().equals(productId))) {
             cardItems = cardItems.stream().map(cardItem -> {
                 if (cardItem.getProductId().equals(productId)) {
-                    cardItem.setQuantity(cardItem.getQuantity() + 1);
+                    cardItem.setQuantity(cardItem.getQuantity() + quantity);
                 }
                 return cardItem;
             }).collect(Collectors.toList());
         } else {
-            cardItems.add(new CardItem(1, productId));
+            cardItems.add(new CardItem(quantity, productId));
         }
     }
 

@@ -13,4 +13,24 @@ $(document).ready(function() {
             $(".qty").val(parseInt(now)+1);
         }
     });
+
+    $('.add-product-to-cart').click(function(event){
+        event.preventDefault();
+        var productId = $(this).attr("productId");
+        var quantity = $(".qty").val();
+
+        $.ajax({
+            //TODO: add link to configuration
+            url: 'http://localhost:8080/rest/api/v1/carts/' + productId + '/' + quantity,
+            type: 'POST',
+            dataType: "json",
+            success: function (response) {
+                location.reload(true);
+            },
+            error: function(xhr, status, error){
+                alert(xhr.responseText);
+            }
+        });
+
+    });
 });

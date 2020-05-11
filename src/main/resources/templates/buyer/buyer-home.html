@@ -3,8 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Shopping Products</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap_3.2.0.min.css}" id="bootstrap-css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/buyer-home.css}"/>
+    <script type="text/javascript" th:src="@{/js/buyer-home.js}"></script>
 </head>
 <body style="padding-top: 0;">
 <div>
@@ -43,39 +46,36 @@
                             </div>
                             <div class="col-md-6 col-xs-6 price">
                                 <h3>
-                                    <label th:text="${'$' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></label></h3>
+                                    <label th:text="${'$' + #numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></label>
+                                </h3>
                             </div>
                         </div>
                         <p class="cursor-pointer"
                            th:text="${product.description.length()>40?(product.description.substring(0, 40) + '...'):product.description}"
                            th:title="${product.description}">
                         </p>
-                        <p>
-                            <span>Rate: </span>
-                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
-                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
-                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
-                            <img th:src="@{/images/Star2.png}" style="width: 30px;" alt="cart"/>
-                            <img th:src="@{/images/Star1.png}" style="width: 30px;" alt="cart"/>
-                        </p>
                         <div class="row">
                             <div class="col-md-6">
                                 <p>Seller:
                                     <a style="font-size: 17px;"
-                                        th:href="@{/buyer/users/{userName}/profile(userName= ${product.getSupplier().getUserName()})}"
-                                        th:text="${product.supplier.name + ' ' + product.supplier.lastName}"
+                                       th:href="@{/buyer/users/{userName}/profile(userName= ${product.getSupplier().getUserName()})}"
+                                       th:text="${product.supplier.name + ' ' + product.supplier.lastName}"
                                     >User name</a>
                                 </p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <form th:object="${product}" method="post"
-                                      th:action="@{/buyer/carts/{productId}/add(productId = ${product.getProductId()})}">
-                                    <button type="submit" class="btn btn-primary btn-product">
-                                        <img th:src="@{/images/cart.png}" style="width: 40px;" alt="cart"/>Add To Cart
-                                    </button>
-                                </form>
+                            <div class="col-md-3 pull-left">
+                                <a href="#"
+                                   th:attr="productId=${product.productId}"
+                                   class="btn btn-success add-product-to-cart">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart
+                                </a>
+                            </div>
+                            <div class="col-md-3 pull-right">
+                                <a class="btn btn-primary"
+                                   th:href="@{/buyer/products/{productId}(productId= ${product.getProductId()})}"
+                                >Details</a>
                             </div>
                         </div>
                         <p></p>

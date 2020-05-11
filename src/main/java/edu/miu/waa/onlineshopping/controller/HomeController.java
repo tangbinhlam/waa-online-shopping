@@ -44,7 +44,6 @@ public class HomeController {
         } else if (user.getRole().equals(Role.SELLER)) {
             modelAndView.setViewName("redirect:/seller/");
         } else if(user.getRole().equals(Role.BUYER)) {
-            servletContext.setAttribute("cart", new Cart(auth.getName(), new ArrayList<CardItem>()));
             modelAndView.setViewName("redirect:/buyer/");
         }
         return modelAndView;
