@@ -3,10 +3,7 @@ package edu.miu.waa.onlineshopping.dataLoader;
 import edu.miu.waa.onlineshopping.domain.model.*;
 import edu.miu.waa.onlineshopping.domain.vo.CommentStatus;
 import edu.miu.waa.onlineshopping.domain.vo.Role;
-import edu.miu.waa.onlineshopping.service.OrderService;
-import edu.miu.waa.onlineshopping.service.ProductCommentService;
-import edu.miu.waa.onlineshopping.service.ProductService;
-import edu.miu.waa.onlineshopping.service.UserService;
+import edu.miu.waa.onlineshopping.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -29,12 +26,15 @@ public class DataLoader implements ApplicationRunner {
 
     private final ProductCommentService productCommentService;
 
+    private final FollowerUserService followerUserService;
+
     @Autowired
-    public DataLoader(UserService userService, ProductService productService, OrderService orderService, ProductCommentService productCommentService) {
+    public DataLoader(UserService userService, ProductService productService, OrderService orderService, ProductCommentService productCommentService, FollowerUserService followerUserService) {
         this.userService = userService;
         this.productService = productService;
         this.orderService = orderService;
         this.productCommentService = productCommentService;
+        this.followerUserService = followerUserService;
     }
 
     @Override
@@ -176,5 +176,8 @@ public class DataLoader implements ApplicationRunner {
         // Print list comment not approve yet
         System.out.println("Print list comment not approve yet");
         System.out.println(productCommentService.getNewProductComments());
+
+        System.out.println("Print follower user");
+        System.out.println(followerUserService.follow(buyer.getUserId(), seller1.getUserId()));
     }
 }
