@@ -11,13 +11,14 @@
 </head>
 <body style="padding-top: 0;">
 <div>
-    <div class="pull-right" style="padding-right:50px">
+    <div class="pull-right" style="padding-right:50px;font-size: 20px;">
         <a th:href="@{/}">Home</a>
         |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
         |<a th:href="@{/buyer/orders/history}">Order History</a>
         |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
         |<a th:href="@{/logout}">Logout</a>
     </div>
+    <div class="pull-left" style="padding: 5px; font-size: 20px;color:#005cbf" th:text="${'User: ' + user.name + ', ' + user.lastName  + ' ( ' + #numbers.formatDecimal(user.getAccount().getPoints(), 0, 'COMMA', 2, 'POINT') +' points )'}"></div>
 </div>
 <div>
     <div class="jumbotron">

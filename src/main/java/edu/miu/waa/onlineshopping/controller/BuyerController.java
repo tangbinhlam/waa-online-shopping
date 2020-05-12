@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Controller
 @RequestMapping("/buyer**")
-@SessionAttributes({"products", "user", "orders", "shippingAddress"})
+@SessionAttributes({"products", "orders", "shippingAddress"})
 public class BuyerController {
 
     private final ProductService productService;
@@ -42,12 +42,11 @@ public class BuyerController {
     }
 
     @ModelAttribute("user")
-    public void getUser(Model model) {
-        User user = (User) model.getAttribute("user");
-        if (user == null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            model.addAttribute("user", userService.findUserByUserName(auth.getName()));
-        }
+    public User getUser(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserName(auth.getName());
+        model.addAttribute("user", user);
+        return user;
     }
 
     @GetMapping(value = {""})
@@ -158,7 +157,7 @@ public class BuyerController {
         Product product = productService.findProductByProductId(productId);
         List<ProductComment> productComments = productCommentService.getApprovedProductComments(productId);
         Integer generalRating = 0;
-        if(productComments.size()>0) {
+        if (productComments.size() > 0) {
             generalRating = (int) Math.round(productComments.stream()
                     .mapToInt(ProductComment::getRating)
                     .average().getAsDouble());

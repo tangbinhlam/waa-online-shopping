@@ -44,4 +44,8 @@ public class OrderEntity {
     private List<OrderItemEntity> orderItems = new ArrayList<>();
 
     private double total;
+
+    private double pointUsed;
+
+    private double pointEarned;
 }

@@ -27,5 +27,5 @@ public class AccountEntity {
     @Column(name = "CLOSED")
     private LocalDate closed;
 
-    private Double balance;
+    private Double points;
 }

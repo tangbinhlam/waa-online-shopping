@@ -3,6 +3,7 @@ package edu.miu.waa.onlineshopping.service;
 import edu.miu.waa.onlineshopping.domain.model.*;
 import edu.miu.waa.onlineshopping.domain.repository.OrderDomainRepository;
 import edu.miu.waa.onlineshopping.domain.repository.PaymentDomainRepository;
+import edu.miu.waa.onlineshopping.domain.repository.UserDomainRepository;
 import edu.miu.waa.onlineshopping.domain.vo.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ public class OrderService {
 
     private final OrderDomainRepository orderDomainRepository;
     private final PaymentDomainRepository paymentDomainRepository;
+    private final UserDomainRepository userDomainRepository;
+    private static final Double BONUS_POINT_PERCENT = 0.01;
 
     @Autowired
-    public OrderService(OrderDomainRepository orderDomainRepository, PaymentDomainRepository paymentDomainRepository) {
+    public OrderService(OrderDomainRepository orderDomainRepository, PaymentDomainRepository paymentDomainRepository, UserDomainRepository userDomainRepository) {
         this.orderDomainRepository = orderDomainRepository;
         this.paymentDomainRepository = paymentDomainRepository;
+        this.userDomainRepository = userDomainRepository;
     }
 
     public List<Order> placeOrder(Cart cart) {
@@ -62,11 +66,42 @@ public class OrderService {
         return orderDomainRepository.findOrderById(orderId);
     }
 
+    /**
+     *
+     * @param orderId
+     * this function
+     * Approve the oder
+     * Add point used to pay for this order to the order.
+     * Get bonus point and add it to account buyer
+     * Make a payment if points used not enough to pay the order.
+     */
     public void approvedOrder(Integer orderId) {
-        Order order = orderDomainRepository.approveOrder(orderId);
+        Order order = orderDomainRepository.findOrderById(orderId);
         // When order is approved we make a payment
-        Payment payment = Payment.of(null, LocalDate.now(), order.getTotal(), "Pay for buying product", order, order.getOwner().getAccount(), order.getSeller().getAccount());
-        paymentDomainRepository.save(payment);
+        double total = order.getTotal();
+        double totalPay = 0.0;
+        double ownerPoints = order.getOwner().getAccount().getPoints();
+        double minusPoints = 0.0;
+        double bonus = 0.0;
+        if(0 < ownerPoints ) {
+            if(ownerPoints >= total) {
+                minusPoints = total;
+            }else {
+                minusPoints = ownerPoints;
+                totalPay = total - minusPoints;
+            }
+        }
+
+        if(totalPay > 0) {
+            Payment payment = Payment.of(null, LocalDate.now(), totalPay, "Pay for buying product", order, order.getOwner().getAccount(), order.getSeller().getAccount());
+            paymentDomainRepository.save(payment);
+            bonus = total*BONUS_POINT_PERCENT;
+        }
+        Order ordered = orderDomainRepository.approveOrder(orderId, minusPoints, bonus);
+        Double finalPoints = bonus - minusPoints;
+        System.out.println("Print point after parched order");
+        System.out.println(userDomainRepository.addPoints(ordered.getOwner().getUserId(), finalPoints));
+
     }
 
     public void rejectOrder(Integer orderId) {

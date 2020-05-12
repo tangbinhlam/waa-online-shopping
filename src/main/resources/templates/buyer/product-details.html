@@ -17,9 +17,10 @@
 </head>
 <body>
 <div>
-    <div class="pull-right" style="padding-right:50px">
+    <div class="pull-right" style="padding-right:50px;font-size: 20px;">
         <a class="fas fa-shopping-cart" th:href="@{/}">Back to List</a>
     </div>
+    <div class="pull-left" style="padding: 5px; font-size: 20px;color:#005cbf" th:text="${'User: ' + user.name + ', ' + user.lastName  + ' ( ' + #numbers.formatDecimal(user.getAccount().getPoints(), 0, 'COMMA', 2, 'POINT') +' points )'}"></div>
 </div>
 <div class="pd-wrap">
     <div class="container">
@@ -28,7 +29,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <img id="thumb" class="product-thumb" th:src="@{'/files/' + ${product.imagePath}}" th:title="${product.description}">
+                <img id="thumb" style="width: inherit;" class="product-thumb" th:src="@{'/files/' + ${product.imagePath}}" th:title="${product.description}">
             </div>
             <div class="col-md-6">
                 <div class="product-dtl">

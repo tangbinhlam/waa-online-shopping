@@ -11,7 +11,7 @@ public interface OrderDomainRepository {
     Order cancelOrder(Integer orderId);
     Order rejectOrder(Integer orderId);
     Order deliveredOrder(Integer orderId);
-    Order approveOrder(Integer orderId);
+    Order approveOrder(Integer orderId, Double pointsUsed, Double earnedPoints);
     List<Order> findAll();
     List<Order> findOrderBySeller(Integer sellerId);
     List<Order> findOrderHistory(Integer buyer);

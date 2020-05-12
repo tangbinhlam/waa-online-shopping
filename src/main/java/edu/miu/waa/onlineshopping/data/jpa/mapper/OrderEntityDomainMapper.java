@@ -32,7 +32,9 @@ public class OrderEntityDomainMapper {
                         userEntityDomainMapper.mapToDomain(orderEntity.getSeller()),
                         addressEntityDomainMapper.mapToDomain(orderEntity.getShipto()),
                         orderItemEntityDomainMapper.mapToDomains(orderEntity.getOrderItems()),
-                        orderEntity.getTotal()
+                        orderEntity.getTotal(),
+                        orderEntity.getPointUsed(),
+                        orderEntity.getPointEarned()
                 ) : null;
     }
 
@@ -44,6 +46,8 @@ public class OrderEntityDomainMapper {
         orderEntity.setDeliveredDate(order.getDeliveredDate());
         orderEntity.setStatus(order.getStatus().toString());
         orderEntity.setTotal(order.getTotal());
+        orderEntity.setPointUsed(order.getPointUsed());
+        orderEntity.setPointEarned(order.getPointEarned());
         orderEntity.setOrderItems(orderItemEntityDomainMapper.mapToEntities(order.getOrderItems()));
         orderEntity.setOwner(userEntityDomainMapper.mapToEntity(order.getOwner()));
         orderEntity.setSeller(userEntityDomainMapper.mapToEntity(order.getSeller()));

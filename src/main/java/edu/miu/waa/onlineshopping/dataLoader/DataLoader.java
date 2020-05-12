@@ -44,7 +44,7 @@ public class DataLoader implements ApplicationRunner {
                 Role.ADMIN, "I'm a admin I manager to approve new seller and review the review are made by buyer", null
         )));
         System.out.println("SELLER: Hoai");
-        Account account = Account.of(null, 500000.00,
+        Account account = Account.of(null, 40000.00,
                 Address.of(null, "300 N Court St", "3E", "IA", "Fairfield", "52556", "USA"),
                 LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User newSeller1 = User.of(null, "Seller", "Seller", "Hoai", "Tang", true, "hoaittang@yahoo.com", "0978548622",
@@ -77,7 +77,7 @@ public class DataLoader implements ApplicationRunner {
         System.out.println(seller3);
 
         System.out.println("BUYER:");
-        Account account4 = Account.of(null, 500000.00,
+        Account account4 = Account.of(null, 2000,
                 Address.of(null, "2000 S Main St", "2K", "IA", "Fairfield", "52556", "USA"),
                 LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User buyer = userService.save(User.of(null, "Buyer", "Buyer", "Dong", "Tang", true, "dongtang@yahoo.com", "0978548623",

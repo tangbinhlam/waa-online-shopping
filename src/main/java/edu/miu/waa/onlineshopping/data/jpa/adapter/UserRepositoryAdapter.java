@@ -43,4 +43,18 @@ public class UserRepositoryAdapter implements UserDomainRepository {
     public List<User> findByActiveFalse() {
         return userRepository.findByActiveFalse().stream().map(userEntityDomainMapper::mapToDomain).collect(Collectors.toList());
     }
+
+    @Override
+    public User addPoints(Integer userId, Double points) {
+        UserEntity user = userRepository.findById(userId).get();
+        user.getAcount().setPoints(user.getAcount().getPoints() + points);
+        return userEntityDomainMapper.mapToDomain(userRepository.save(user));
+    }
+
+    @Override
+    public User minusPoints(Integer userId, Double points) {
+        UserEntity user = userRepository.findById(userId).get();
+        user.getAcount().setPoints(user.getAcount().getPoints() - points);
+        return userEntityDomainMapper.mapToDomain(userRepository.save(user));
+    }
 }

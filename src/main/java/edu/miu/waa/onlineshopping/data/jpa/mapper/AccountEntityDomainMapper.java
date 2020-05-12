@@ -18,7 +18,7 @@ public class AccountEntityDomainMapper {
     public Account mapToDomain(AccountEntity accountEntity) {
         return (accountEntity != null) ?
                 Account.of(accountEntity.getAccountId(),
-                        accountEntity.getBalance(),
+                        accountEntity.getPoints(),
                         addressEntityDomainMapper.mapToDomain(accountEntity.getBillingAddress()),
                         accountEntity.getOpen(),
                         accountEntity.getClosed()
@@ -34,7 +34,7 @@ public class AccountEntityDomainMapper {
         accountEntity.setBillingAddress(addressEntityDomainMapper.mapToEntity(account.getBillingAddress()));
         accountEntity.setOpen(account.getOpen());
         accountEntity.setClosed(account.getClosed());
-        accountEntity.setBalance(account.getBalance());
+        accountEntity.setPoints(account.getPoints());
         return accountEntity;
     }
 }

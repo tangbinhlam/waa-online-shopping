@@ -9,4 +9,6 @@ public interface UserDomainRepository {
     User save(User user);
     User approveSeller(Integer userId);
     List<User> findByActiveFalse();
+    User addPoints(Integer userId, Double points);
+    User minusPoints(Integer userId, Double points);
 }

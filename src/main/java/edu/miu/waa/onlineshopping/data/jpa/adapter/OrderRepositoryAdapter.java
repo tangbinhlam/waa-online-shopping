@@ -59,10 +59,12 @@ public class OrderRepositoryAdapter implements OrderDomainRepository {
     }
 
     @Override
-    public Order approveOrder(Integer orderId) {
+    public Order approveOrder(Integer orderId, Double pointsUsed, Double earnPoints) {
         OrderEntity orderEntity = orderRepository.findById(orderId).get();
         orderEntity.setStatus(OrderStatus.SHIPPED.toString());
         orderEntity.setShippedDate(LocalDate.now());
+        orderEntity.setPointUsed(pointsUsed);
+        orderEntity.setPointEarned(earnPoints);
         return orderEntityDomainMapper.mapToDomain(orderRepository.save(orderEntity));
     }
 

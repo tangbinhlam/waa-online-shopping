@@ -11,13 +11,14 @@
 </head>
 <body>
 <div>
-    <div class="pull-right" style="padding-right:50px">
+    <div class="pull-right" style="padding-right:50px;font-size: 20px;">
         <a th:href="@{/}">Home</a>
         |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
         |<a th:href="@{/buyer/orders/history}">Order History</a>
         |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
         |<a th:href="@{/logout}">Logout</a>
     </div>
+    <div class="pull-left" style="padding: 5px; font-size: 20px;color:#005cbf" th:text="${'User: ' + user.name + ', ' + user.lastName  + ' ( ' + #numbers.formatDecimal(user.getAccount().getPoints(), 0, 'COMMA', 2, 'POINT') +' points )'}"></div>
 </div>
 <div>
     <div class="jumbotron">
@@ -28,35 +29,49 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <div class="col-sm-12 col-md-12 col-md-offset-1">
             <legend>Order</legend>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Order Id</label>
+                <label class="col-sm-2 control-label">Order Id:</label>
                 <div class="col-sm-10">
                     <label th:text="${'P' + #numbers.formatInteger(order.getOrderId(),10)}"></label>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Order status </label>
+                <label class="col-sm-2 control-label">Order status: </label>
                 <div class="col-sm-10">
                     <label th:style="${order.getStatus().toString().equals('CANCEL')|| order.getStatus().toString().equals('REJECT')? 'color: red' : 'color: green'}"
                            th:text="${#messages.msgOrNull('orderStatus.' + order.getStatus().toString())}"></label>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Created date</label>
+                <label class="col-sm-2 control-label">Created date:</label>
                 <div class="col-sm-10">
                     <label th:text="${order.getOrderDate()}"></label>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Shipped date</label>
+                <label class="col-sm-2 control-label">Points used: </label>
+                <div class="col-sm-10">
+                    <label style="color: #dc3545"
+                           th:text="${!(order.status.toString().equals('SHIPPED') || order.status.toString().equals('DELIVERED'))?'N/a': #numbers.formatDecimal(order.getPointUsed(), 0, 'COMMA', 2, 'POINT')+ ' points'}"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Points Earned: </label>
+                <div class="col-sm-10">
+                    <label style="color: green"
+                           th:text="${!(order.status.toString().equals('SHIPPED') || order.status.toString().equals('DELIVERED'))?'N/a': #numbers.formatDecimal(order.getPointEarned(), 0, 'COMMA', 2, 'POINT') + ' points'}"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Shipped date:</label>
                 <div class="col-sm-10">
                     <label th:text="${(order.getShippedDate()!=null)?order.getShippedDate():'N/a'}"></label>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Delivered date</label>
+                <label class="col-sm-2 control-label">Delivered date:</label>
                 <div class="col-sm-10">
                     <label th:text="${(order.getDeliveredDate()!=null)?order.getDeliveredDate():'N/a'}"></label>
                 </div>
@@ -105,87 +120,87 @@
         </div><!-- /.col-lg-12 -->
     </div><!-- /.row -->
     <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-         <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th> </th>
-                <th>Quantity</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Total</th>
-                <th class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="orderItem : ${order.getOrderItems()}">
-                <td class="col-sm-8 col-md-6">
-                    <div class="media">
-                        <a class="thumbnail pull-left" href="#"> <img
-                                th:src="@{'/files/' + ${orderItem.product.imagePath}}"
-                                th:title="${orderItem.product.description}" style="width: 72px; height: 72px;"> </a>
-                        <div class="media-body">
-                            <h4 class="media-heading"><a href="#" th:text="${orderItem.product.productName}">Product
-                                name</a></h4>
-                            <h5 class="media-heading"> by <a href="#" th:text="${orderItem.product.producer}">Brand
-                                name</a></h5>
-                            <span>Seller: </span><span class="text-success"><strong
-                                th:text="${orderItem.product.supplier.name + ', ' + orderItem.product.supplier.lastName}">In Stock</strong></span>
+        <div class="col-sm-12 col-md-12 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th> </th>
+                    <th>Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Total</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem : ${order.getOrderItems()}">
+                    <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img
+                                    th:src="@{'/files/' + ${orderItem.product.imagePath}}"
+                                    th:title="${orderItem.product.description}" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#" th:text="${orderItem.product.productName}">Product
+                                    name</a></h4>
+                                <h5 class="media-heading"> by <a href="#" th:text="${orderItem.product.producer}">Brand
+                                    name</a></h5>
+                                <span>Seller: </span><span class="text-success"><strong
+                                    th:text="${orderItem.product.supplier.name + ', ' + orderItem.product.supplier.lastName}">In Stock</strong></span>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td></td>
-                <td class="col-sm-1 col-md-1" style="text-align: center">
-                    <h4 class="text-center" readonly th:text="${orderItem.quantity}"></h4>
-                </td>
-                <td class="col-sm-1 col-md-1 text-center"
-                    th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}">
-                    <strong>$4.87</strong></td>
-                <td class="col-sm-1 col-md-1 text-center"
-                    th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice() * orderItem.quantity, 0, 'COMMA', 2, 'POINT')}">
-                    <strong>$14.61</strong></td>
-                <td th:if="${!order.status.toString().equals('DELIVERED')}"></td>
-                <td th:if="${order.status.toString().equals('DELIVERED')}" class="text-center">
-                    <form th:action="@{/buyer/products/{productId}/review(productId = ${orderItem.getProduct().productId})}"
-                          method="Get">
-                        <button type="submit" class="btn btn-success">
-                            Write review <span class="glyphicon glyphicon-play"></span>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>  </td>
-                <td>  </td>
-                <td></td>
-                <td></td>
-                <td><h3>Total</h3></td>
-                <td class="text-right"><h3
-                        th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
-                    <strong>$31.53</strong></h3></td>
-            </tr>
-            <tr>
-                <td>  </td>
-                <td>  </td>
-                <td>  </td>
-                <td>  </td>
-                <td>  </td>
-                <td class="pull-right">
-                    <a th:if="${order.status.toString().equals('SHIPPED') || order.status.toString().equals('DELIVERED')}"
-                       th:href="@{/buyer/orders/{orderId}/receipt(orderId = ${order.getOrderId()})}"
-                       class="btn btn-primary order-print-btn">
-                        <span class="glyphicon glyphicon-print"/></span> Review Receipt</a>
-                    <form th:if="${order.status.toString().equals('PLACE_ORDER')}"
-                          th:action="@{/buyer/orders/{orderId}/cancel(orderId = ${order.getOrderId()})}"
-                          method="POST">
-                        <button type="submit" class="btn btn-primary btn-danger">
-                            <span class="glyphicon glyphicon-play"></span> Cancel order
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </td>
+                    <td></td>
+                    <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <h4 class="text-center" readonly th:text="${orderItem.quantity}"></h4>
+                    </td>
+                    <td class="col-sm-1 col-md-1 text-center"
+                        th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice(), 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$4.87</strong></td>
+                    <td class="col-sm-1 col-md-1 text-center"
+                        th:text="${'$'+ #numbers.formatDecimal(orderItem.product.getPrice() * orderItem.quantity, 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$14.61</strong></td>
+                    <td th:if="${!order.status.toString().equals('DELIVERED')}"></td>
+                    <td th:if="${order.status.toString().equals('DELIVERED')}" class="text-center">
+                        <form th:action="@{/buyer/products/{productId}/review(productId = ${orderItem.getProduct().productId})}"
+                              method="Get">
+                            <button type="submit" class="btn btn-success">
+                                Write review <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td></td>
+                    <td></td>
+                    <td><h3>Total</h3></td>
+                    <td class="text-right"><h3
+                            th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$31.53</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>  </td>
+                    <td class="pull-right">
+                        <a th:if="${order.status.toString().equals('SHIPPED') || order.status.toString().equals('DELIVERED')}"
+                           th:href="@{/buyer/orders/{orderId}/receipt(orderId = ${order.getOrderId()})}"
+                           class="btn btn-primary order-print-btn">
+                            <span class="glyphicon glyphicon-print"/></span> Review Receipt</a>
+                        <form th:if="${order.status.toString().equals('PLACE_ORDER')}"
+                              th:action="@{/buyer/orders/{orderId}/cancel(orderId = ${order.getOrderId()})}"
+                              method="POST">
+                            <button type="submit" class="btn btn-primary btn-danger">
+                                <span class="glyphicon glyphicon-play"></span> Cancel order
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="row" id="addressPanel">

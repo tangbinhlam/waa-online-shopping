@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -30,20 +29,18 @@ public class Account {
     @NotNull
     private LocalDate closed;
 
-    @Min(value = 201, message = "{0} must > 200$")
-    @NotNull
-    private double balance;
+    private double points = 0;
 
-    private Account(Integer accountId, double balance, Address billingAddress, LocalDate open, LocalDate closed) {
+    private Account(Integer accountId, double points, Address billingAddress, LocalDate open, LocalDate closed) {
         this.accountId = accountId;
         this.billingAddress = billingAddress;
         this.open = open;
         this.closed = closed;
-        this.balance = balance;
+        this.points = points;
     }
 
-    public static Account of(Integer accountId, double balance, Address billingAddress, LocalDate open, LocalDate closed) {
-        return new Account(accountId, balance, billingAddress, open, closed);
+    public static Account of(Integer accountId, double points, Address billingAddress, LocalDate open, LocalDate closed) {
+        return new Account(accountId, points, billingAddress, open, closed);
     }
 }
 //TODO: Put validate && Should not have setter all data process by construct then we can

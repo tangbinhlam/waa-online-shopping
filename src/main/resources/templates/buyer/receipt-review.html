@@ -13,13 +13,14 @@
 </head>
 <body>
 <div class="tool-bar">
-    <div class="pull-right" style="padding-right:50px">
+    <div class="pull-right" style="padding-right:50px;font-size: 20px;">
         <a th:href="@{/}">Home</a>
         |<a th:href="@{/buyer/carts/details}">Shopping Cart</a>
         |<a th:href="@{/buyer/orders/history}">Order History</a>
         |<a th:href="@{/buyer/users/followed-users}">Followed Users</a>
         |<a th:href="@{/logout}">Logout</a>
     </div>
+    <div class="pull-left" style="padding: 5px; font-size: 20px;color:#005cbf" th:text="${'User: ' + user.name + ', ' + user.lastName  + ' ( ' + #numbers.formatDecimal(user.getAccount().getPoints(), 0, 'COMMA', 2, 'POINT') +' points )'}"></div>
 </div>
 <div class="header-text">
     <div class="jumbotron">
@@ -79,8 +80,15 @@
                 <tr>
                     <td></td>
                     <td></td>
+                    <td><h3>Points used</h3></td>
+                    <td class="text-right"><h5 th:text="${'$'+ #numbers.formatDecimal(order.getPointUsed(), 0, 'COMMA', 2, 'POINT')}">
+                        <strong>$31.53</strong></h5></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
                     <td><h3>Total</h3></td>
-                    <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(order.total, 0, 'COMMA', 2, 'POINT')}">
+                    <td class="text-right"><h3 th:text="${'$'+ #numbers.formatDecimal(order.total - order.getPointUsed(), 0, 'COMMA', 2, 'POINT')}">
                         <strong>$31.53</strong></h3></td>
                 </tr>
                 <tr>
