@@ -118,21 +118,21 @@ public class DataLoader implements ApplicationRunner {
                 seller2, 2843.90, "Nikon")));
 
         System.out.println("============================Add product for seller ==============================");
-        System.out.println(productService.save(Product.of(null, "Galaxy S5", "galaxy_s5.jpg", "32GB, 2GB Ram, 1080HD, 5.1 inches, Android",
-                seller1, 649.99, "Samsung")));
-        System.out.println(productService.save(Product.of(null, "iPhone 6", "iPhone6.jpg", "32GB, 64Bit, 1080HD, 4.7 inches, iOS 8",
-                seller1, 749.99, "Apple")));
-        System.out.println(productService.save(Product.of(null, "Lumia 1520", "Lumia1520.jpg", "32GB, 4GB Ram, 1080HD, 6.3 inches, WP 8",
-                seller1, 749.99, "Nokia")));
-        System.out.println(productService.save(Product.of(null, "Samsung Galaxy S20", "SamsungGalaxyS20.jpg",
-                "5G Factory Unlocked New Android Cell Phone US Version | 128GB of Storage | Fingerprint ID and Facial Recognition | Long-Lasting Battery | US Warranty |Cosmic Gray",
-                seller1, 999.47, "Samsung")));
-        System.out.println(productService.save(Product.of(null, "iPhone X", "IphoneX.jpg", "Simple Mobile Prepaid - Apple iPhone XR (64GB) - Silver",
-                seller1, 599.99, "Apple")));
-        System.out.println(productService.save(Product.of(null, "iPhone XS Max", "IphoneXSMax.jpg", "iPhone XS Max features a 6.5-inch Super Retina display with custom-built OLED panels for an HDR display that provides the industry's best color accuracy, true blacks, and remarkable brightness",
-                seller1, 749.99, "Apple")));
-        System.out.println(productService.save(Product.of(null, "iPhone SE", "IPhoneSE.jpg", "New Apple iPhone SE (64GB, (Product) RED) [Carrier Locked] + Carrier Subscription [Cricket Wireless]",
-                seller1, 649.99, "Apple")));
+        System.out.println(productService.save(Product.of(null, "LG G7 fit 32GB", "lg_g7.jpg", "Use built-in AI to take better photos with the G7 fit LM-Q850QM 32GB Smartphone from LG. With AI Cam, the G7 fit will suggest the optimal effect and angle to use by automatically identifying what's in the shot. With AI Composition, the G7 fit can recognize up to 3 people in a photo and will adjust the picture for the best possible results",
+                seller1, 190.99, "LG")));
+        System.out.println(productService.save(Product.of(null, "Google Pixel 4 64GB", "google_p4.jpg", "The Pixel 4 64GB Smartphone (Unlocked, Just Black) from Google is designed to provide a more intelligent and intuitive mobile experience. With a front NIR (Near-Infrared) flood emitter & dot projector, the Pixel 4 is capable of unlocking via facial recognition, even in extreme low-light environments",
+                seller1, 799.99, "Google")));
+        System.out.println(productService.save(Product.of(null, "Samsung Galaxy A90", "samsung_a90.jpg", "Built for mobile entertainment, the Galaxy A90 SM-A908B 5G 128GB Smartphone from Samsung sports a huge 6.7\" Super AMOLED display with cinematic 20:9 aspect ratio, a triple-camera system capable of capturing 4K video, and access to select 5G networks for fast, low-latency downloading and streaming",
+                seller1, 349.99, "Samsung")));
+        System.out.println(productService.save(Product.of(null, "ASUS ZenFone 5Z", "asus_5z.jpg",
+                "With a smart screen and smart cameras, the ASUS ZenFone 5Z ZS620KL Dual-SIM 64GB Smartphone is an intelligent choice for a feature-rich phone that provides sophisticated multimedia capabilities. Starting with the display, you get a 6.2\" screen on a 5.5\" body. How? ASUS manages this by pushing the screen to the edge for a 90% screen-to-body",
+                seller1, 999.47, "Asus")));
+        System.out.println(productService.save(Product.of(null, "Sony Xperia 1 J8170", "sony_j8170.jpg", "A pocket-sized cinema experience, the Xperia 1 J8170 128GB Smartphone from Sony features a huge 6.5\", 21:9 aspect ratio CinemaWide OLED that's capable of displaying video in 4K HDR quality. This high quality display comes from a collaboration with CineAlta engineers, who also give Xperia 1 owners Creator Mode.",
+                seller1, 949.00, "Sony")));
+        System.out.println(productService.save(Product.of(null, "Sony Xperia 1 II", "sony_jII.jpg", "From its network support to camera technology, the Xperia 1 II Dual-SIM 256GB 5G Smartphone from Sony is engineered for speed. Supporting 5G networks, you can enjoy blazing fast internet speeds in supported areas. When it comes to mobile photos and video, Sony worked to set the Xperia 1 II apart from the crowd",
+                seller1, 549.99, "Sony")));
+        System.out.println(productService.save(Product.of(null, "Sony AS210 Sport In-Ear", "sony_as210.jpg", "The pink AS210 Sport In-Ear Headphones from Sony feature adjustable loop hangers for a secure fit while playing sports, a 3.9' cord for room to move, and 0.5\" drivers that deliver an optimized frequency range. The headphones are water resistant for all-weather listening and can be used to enjoy your favorite music while you exercise.",
+                seller1, 13.72, "Sony")));
 
         System.out.println(productService.findProductsByIds(Arrays.asList(16, 18, 20)).stream().map(Product::getProductId).collect((Collectors.toList())));
 
@@ -166,6 +166,31 @@ public class DataLoader implements ApplicationRunner {
         System.out.println(orders1);
         orderService.approvedOrder(orders1.get(0).getOrderId());
         orderService.changeToDeliveredOrder(orders1.get(0).getOrderId());
+
+
+        Cart cart1 = new Cart();
+        cart1.addItemToCart(16, 2);
+        cart1.addItemToCart(18, 2);
+        cart1.addItemToCart(19, 1);
+        cart1.addItemToCart(25, 1);
+        cart1.addItemToCart(27, 2);
+        cart1.addItemToCart(29, 3);
+        List<Product> products1 = productService.findProductsByIds(cart1.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
+        cart1.setCardItems(cart1.getCardItems().stream().peek(cardItem ->
+                cardItem.setProduct(products1.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
+        Address address1 = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
+        orderService.save(cart1, buyer, address1);
+
+        System.out.println("Print Order of user: " + seller1.getName());
+        List<Order> orders2 = orderService.findOrderBySeller(seller1.getUserId());
+        List<Order> ordersSeller2 = orderService.findOrderBySeller(seller2.getUserId());
+
+        System.out.println("Order will be changed status");
+        System.out.println(orders2);
+        orderService.approvedOrder(ordersSeller2.get(1).getOrderId());
+        orderService.rejectOrder(orders2.get(1).getOrderId());
+
+
         // Write comment for product 1
         ProductComment productComment = ProductComment.of(null, "This is good product", 5, buyer, LocalDate.now(), CommentStatus.ADDED);
         ProductComment productComment1 = ProductComment.of(null, "Right out of the box and with very little reading of the manual I was able to get going with this very capable device on my complicated Canon 6D Mark II. I have a lot to learn about off-camera flash photography, but I already know enough to recommend that this flash is well served by using it conjunction with a soft-box.", 5, buyer, LocalDate.now(), CommentStatus.ADDED);

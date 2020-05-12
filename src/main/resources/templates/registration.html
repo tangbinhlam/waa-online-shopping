@@ -16,18 +16,18 @@
                 <h2 th:text="#{registration.header.label}"></h2>
                 <div class="form-group">
                     <div class="col-lg-9">
-                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                               class="validation-message"></label>
                         <input type="text" th:field="*{name}" placeholder="Name"
                                class="form-control"/>
+                        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="validation-message"></label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-9">
-                        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                               class="validation-message"></label>
                         <input type="text" th:field="*{lastName}"
                                placeholder="Last Name" class="form-control"/>
+                        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                               class="validation-message"></label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,14 +72,16 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-9">
-                        <textarea th:field="*{aboutUs}" placeholder="Write somethings about you" class="form-control"></textarea>
+                        <textarea th:field="*{aboutUs}" placeholder="Write somethings about you"
+                                  class="form-control"></textarea>
                     </div>
                 </div>
                 <h2 th:text="#{registration.header.acount.label}"></h2>
                 <fieldset>
                     <legend th:text="#{registration.acount.header}">Account Information</legend>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.balance.label}">Balance</label>
+                        <label class="col-sm-2 control-label"
+                               th:text="#{registration.acount.balance.label}">Balance</label>
                         <div class="col-lg-9">
                             <input type="text" th:field="*{account.balance}" placeholder="Balance"
                                    class="form-control"/> <label
@@ -88,7 +90,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.open.label}">open date</label>
+                        <label class="col-sm-2 control-label" th:text="#{registration.acount.open.label}">open
+                            date</label>
                         <div class="col-lg-9">
                             <input type="text" th:field="*{account.open}" placeholder="Open date"
                                    class="form-control"/> <label
@@ -97,7 +100,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.closed.label}">closed date</label>
+                        <label class="col-sm-2 control-label" th:text="#{registration.acount.closed.label}">closed
+                            date</label>
                         <div class="col-lg-9">
                             <input type="text" th:field="*{account.closed}" placeholder="Closed date"
                                    class="form-control"/> <label
@@ -112,9 +116,11 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" th:text="#{registration.acount.address.addressLine1}">Line 1</label>
                         <div class="col-lg-9">
-                            <input type="text" th:field="*{account.billingAddress.addressLine1}" placeholder="Address Line 1"
+                            <input type="text" th:field="*{account.billingAddress.addressLine1}"
+                                   placeholder="Address Line 1"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.addressLine1')}" th:errors="*{account.billingAddress.addressLine1}"
+                                th:if="${#fields.hasErrors('account.billingAddress.addressLine1')}"
+                                th:errors="*{account.billingAddress.addressLine1}"
                                 class="validation-message"></label>
                         </div>
                     </div>
@@ -123,9 +129,11 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" th:text="#{registration.acount.address.addressLine2}">Line 2</label>
                         <div class="col-lg-9">
-                            <input type="text" th:field="*{account.billingAddress.addressLine2}" placeholder="Address Line 2"
+                            <input type="text" th:field="*{account.billingAddress.addressLine2}"
+                                   placeholder="Address Line 2"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.addressLine2')}" th:errors="*{account.billingAddress.addressLine2}"
+                                th:if="${#fields.hasErrors('account.billingAddress.addressLine2')}"
+                                th:errors="*{account.billingAddress.addressLine2}"
                                 class="validation-message"></label>
                         </div>
                     </div>
@@ -136,50 +144,60 @@
                         <div class="col-lg-4">
                             <input type="text" th:field="*{account.billingAddress.city}" placeholder="City"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.city')}" th:errors="*{account.billingAddress.city}"
+                                th:if="${#fields.hasErrors('account.billingAddress.city')}"
+                                th:errors="*{account.billingAddress.city}"
                                 class="validation-message"></label>
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.address.state}">State</label>
+                        <label class="col-sm-2 control-label"
+                               th:text="#{registration.acount.address.state}">State</label>
                         <div class="col-sm-4">
                             <input type="text" th:field="*{account.billingAddress.state}" placeholder="State"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.state')}" th:errors="*{account.billingAddress.state}"
+                                th:if="${#fields.hasErrors('account.billingAddress.state')}"
+                                th:errors="*{account.billingAddress.state}"
                                 class="validation-message"></label>
                         </div>
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.address.postcode}">Postcode</label>
+                        <label class="col-sm-2 control-label"
+                               th:text="#{registration.acount.address.postcode}">Postcode</label>
                         <div class="col-sm-4">
                             <input type="text" th:field="*{account.billingAddress.postcode}" placeholder="Postcode"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.postcode')}" th:errors="*{account.billingAddress.postcode}"
+                                th:if="${#fields.hasErrors('account.billingAddress.postcode')}"
+                                th:errors="*{account.billingAddress.postcode}"
                                 class="validation-message"></label>
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label" th:text="#{registration.acount.address.country}">Country</label>
+                        <label class="col-sm-2 control-label"
+                               th:text="#{registration.acount.address.country}">Country</label>
                         <div class="col-lg-4">
                             <input type="text" th:field="*{account.billingAddress.country}" placeholder="Country"
                                    class="form-control"/> <label
-                                th:if="${#fields.hasErrors('account.billingAddress.country')}" th:errors="*{account.billingAddress.city}"
+                                th:if="${#fields.hasErrors('account.billingAddress.country')}"
+                                th:errors="*{account.billingAddress.city}"
                                 class="validation-message"></label>
                         </div>
                     </div>
                 </fieldset>
                 <div class="form-group">
                     <div class="col-lg-9" style="text-align: -webkit-right;">
-                        <button type="submit" style="width: 30%" class="btn btn-primary btn-block">Register User</button>
+                        <button type="submit" style="width: 30%" class="btn btn-primary btn-block">Register User
+                        </button>
                     </div>
                 </div>
             </form>
             <form th:action="@{/}" method="get" class="form-horizontal" role="form">
                 <div class="form-group">
                     <div class="col-lg-9" style="text-align: -webkit-right;">
-                    <button  style="width: 30%" class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+                        <button style="width: 30%" class="btn btn-md btn-warning btn-block" type="Submit">Go To Login
+                            Page
+                        </button>
                     </div>
                 </div>
             </form>

@@ -64,7 +64,8 @@ public class OrderService {
 
     public void approvedOrder(Integer orderId) {
         Order order = orderDomainRepository.approveOrder(orderId);
-        Payment payment = Payment.of(null, LocalDate.now(), order.getTotal(), "Pay for buying", order, order.getOwner().getAccount(), order.getSeller().getAccount());
+        // When order is approved we make a payment
+        Payment payment = Payment.of(null, LocalDate.now(), order.getTotal(), "Pay for buying product", order, order.getOwner().getAccount(), order.getSeller().getAccount());
         paymentDomainRepository.save(payment);
     }
 
