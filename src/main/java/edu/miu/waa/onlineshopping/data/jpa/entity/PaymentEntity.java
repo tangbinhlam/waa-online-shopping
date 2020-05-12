@@ -18,7 +18,7 @@ public class PaymentEntity {
     @Column(name = "PAYMENT_ID")
     private Integer paymentId;
 
-    @Column(name = "PAID", columnDefinition = "DATE DEFAULT CURRENT_DATE")
+    @Column(name = "PAID")
     private LocalDate paid;
 
     private double total;

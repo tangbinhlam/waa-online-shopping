@@ -10,10 +10,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -42,45 +41,45 @@ public class DataLoader implements ApplicationRunner {
         System.out.println("INIT DATABASE");
         System.out.println("============================Init database for table USER==============================");
         System.out.println(userService.save(User.of(null, "Lamtang", "Lamtang", "Lam", "Tang", true, "lamtang@yahoo.com", "0978548677",
-                Role.ADMIN, "I'm a admin I manager to approve new seller and review the review are made by buyer",null
+                Role.ADMIN, "I'm a admin I manager to approve new seller and review the review are made by buyer", null
         )));
         System.out.println("SELLER: Hoai");
         Account account = Account.of(null, 500000.00,
                 Address.of(null, "300 N Court St", "3E", "IA", "Fairfield", "52556", "USA"),
-                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+                LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User newSeller1 = User.of(null, "Seller", "Seller", "Hoai", "Tang", true, "hoaittang@yahoo.com", "0978548622",
                 Role.SELLER,
                 "When i was a child i wish when i can become a seller to buy some great product to help who want to have a good product can be had it and now I'm a seller. I hope you can buy my product and i'm sure that it is great prodcut with price resonable"
-                ,account);
+                , account);
         User seller1 = userService.save(newSeller1);
         System.out.println(seller1);
 
         System.out.println("SELLER: Hung");
         Account account2 = Account.of(null, 500000.00,
                 Address.of(null, "2701 W Burlington Ave", "2K", "IA", "Fairfield", "52556", "USA"),
-                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+                LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User newSeller2 = User.of(null, "Seller1", "Seller", "Hung", "Tang", true, "hungtang@yahoo.com", "0978548621",
                 Role.SELLER,
                 "I very like the seller so I become a seller and I hope I can sell somethings"
-                ,account2);
+                , account2);
         User seller2 = userService.save(newSeller2);
         System.out.println(seller2);
 
         System.out.println("SELLER: Trong Inactive");
         Account account3 = Account.of(null, 500000.00,
                 Address.of(null, "707 W Burlington Ave", "2K", "IA", "Fairfield", "52556", "USA"),
-                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
-        User newSeller3 = User.of(null,"Seller2", "Seller", "Trong", "Tang", false, "trongtang@yahoo.com", "0978548621",
+                LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
+        User newSeller3 = User.of(null, "Seller2", "Seller", "Trong", "Tang", false, "trongtang@yahoo.com", "0978548621",
                 Role.SELLER,
                 "You want to buy something? I have it for you let go to my product to get it"
-                ,account3);
+                , account3);
         User seller3 = userService.save(newSeller3);
         System.out.println(seller3);
 
         System.out.println("BUYER:");
         Account account4 = Account.of(null, 500000.00,
                 Address.of(null, "2000 S Main St", "2K", "IA", "Fairfield", "52556", "USA"),
-                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+                LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User buyer = userService.save(User.of(null, "Buyer", "Buyer", "Dong", "Tang", true, "dongtang@yahoo.com", "0978548623",
                 Role.BUYER, "", account4));
         System.out.println(buyer);
@@ -148,12 +147,12 @@ public class DataLoader implements ApplicationRunner {
         List<Product> products = productService.findProductsByIds(cart.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart.setCardItems(cart.getCardItems().stream().peek(cardItem ->
                 cardItem.setProduct(products.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
-        Address address = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
+        Address address = Address.of(null, "5020 S Main St", "30k", "IOWA", "FairField", "54333", "USA");
         orderService.save(cart, buyer, address);
 
         Account account5 = Account.of(null, 500000.00,
                 Address.of(null, "2020 S Main St", "2K", "IA", "Fairfield", "52556", "USA"),
-                LocalDate.of(2020,5,1), LocalDate.of(2027,5,1));
+                LocalDate.of(2020, 5, 1), LocalDate.of(2027, 5, 1));
         User buyer1 = userService.save(User.of(null, "Buyer1", "Buyer1", "Phuc", "Tang", true, "phuctang@yahoo.com", "0978548623",
                 Role.BUYER, "", account5));
         System.out.println(buyer1);
@@ -178,7 +177,7 @@ public class DataLoader implements ApplicationRunner {
         List<Product> products1 = productService.findProductsByIds(cart1.getCardItems().stream().map(CardItem::getProductId).collect(Collectors.toList()));
         cart1.setCardItems(cart1.getCardItems().stream().peek(cardItem ->
                 cardItem.setProduct(products1.stream().filter(product -> product.getProductId().equals(cardItem.getProductId())).findFirst().get())).collect(Collectors.toList()));
-        Address address1 = Address.of(null, "address line 1", "address line 2", "IOWA", "FairField", "54333", "USA");
+        Address address1 = Address.of(null, "1000 S Main St", "34N", "IOWA", "FairField", "54333", "USA");
         orderService.save(cart1, buyer, address1);
 
         System.out.println("Print Order of user: " + seller1.getName());

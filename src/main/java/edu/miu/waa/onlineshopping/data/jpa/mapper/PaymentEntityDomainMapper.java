@@ -34,6 +34,7 @@ public class PaymentEntityDomainMapper {
         paymentEntity.setPaymentId(payment.getPaymentId());
         paymentEntity.setDetails(payment.getDetails());
         paymentEntity.setTotal(payment.getTotal());
+        paymentEntity.setPaid(payment.getPaid());
         paymentEntity.setOrder(orderEntityDomainMapper.mapToEntity(payment.getOrder()));
         paymentEntity.setPayAccount(accountEntityDomainMapper.mapToEntity(payment.getPayAccount()));
         paymentEntity.setReceiveAccount(accountEntityDomainMapper.mapToEntity(payment.getReceiveAccount()));

@@ -23,4 +23,9 @@ public class PaymentRepositoryAdapter implements PaymentDomainRepository {
     public Payment save(Payment payment) {
         return paymentEntityDomainMapper.mapToDomain(paymentRepository.save(paymentEntityDomainMapper.mapToEntity(payment)));
     }
+
+    @Override
+    public Payment getPaymentByOrder(Integer orderId) {
+        return paymentEntityDomainMapper.mapToDomain(paymentRepository.findByOrder_OrderId(orderId));
+    }
 }

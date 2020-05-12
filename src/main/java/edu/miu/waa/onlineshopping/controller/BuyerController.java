@@ -28,15 +28,17 @@ public class BuyerController {
     private final OrderService orderService;
     private final ProductCommentService productCommentService;
     private final FollowerUserService followerUserService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService, ProductCommentService productCommentService, FollowerUserService followerUserService) {
+    public BuyerController(ProductService productService, UserService userService, ServletContext servletContext, OrderService orderService, ProductCommentService productCommentService, FollowerUserService followerUserService, PaymentService paymentService) {
         this.productService = productService;
         this.userService = userService;
         this.servletContext = servletContext;
         this.orderService = orderService;
         this.productCommentService = productCommentService;
         this.followerUserService = followerUserService;
+        this.paymentService = paymentService;
     }
 
     @ModelAttribute("user")
@@ -127,6 +129,7 @@ public class BuyerController {
     public String reviewOrders(@PathVariable Integer orderId, Model model) {
         Order order = orderService.findOrderById(orderId);
         model.addAttribute("order", order);
+        model.addAttribute("payment", paymentService.getPaymentOfOrder(orderId));
         return "buyer/order-history-view";
     }
 

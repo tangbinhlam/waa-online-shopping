@@ -4,4 +4,5 @@ import edu.miu.waa.onlineshopping.data.jpa.entity.PaymentEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PaymentRepository extends CrudRepository<PaymentEntity, Integer> {
+    public PaymentEntity findByOrder_OrderId(Integer order_orderId);
 }
