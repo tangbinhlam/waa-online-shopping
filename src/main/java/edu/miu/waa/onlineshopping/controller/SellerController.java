@@ -91,7 +91,7 @@ public class SellerController {
 
     @PostMapping(value = "/products/add")
     public String addNewProduct(@Valid ProductCommand newProductCommand, BindingResult bindingResult, Model model) {
-        String pathFileName = null;
+        String pathFileName = "no_image.png";
         if(newProductCommand.getImagePath().getOriginalFilename().length()>0) {
             pathFileName = storageService.store(newProductCommand.getImagePath());
         }
